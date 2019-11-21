@@ -25,7 +25,7 @@ def convert_integer(df):
 
 
 ##############################################################################
-# Read a subset of a large file.
+# Read a subset of a large file; defaults to reading "preg_link.csv" with "pickled" dtypes file
 ##############################################################################
 # Note hard-coded default filename (temporary)
 # "types-file" is assumed to be a pickled Python dictionary of column names to Python datatypes.
@@ -42,3 +42,16 @@ def subset_csv(filename='../data/csl/preg_link.csv', rows=100, columns=10, rando
         df = pd.read_csv(filename, index_col=0,  nrows=rows, usecols=range(0, columns+1),
                          header=0, skip_blank_lines=True)
     return df
+
+
+############################################################
+# Read the whole "preg_link.csv" with "pickled" dtypes file
+############################################################
+def read_csl_csv(filename='../data/csl/preg_link.csv', types_file='./csl_types.pickle'):
+    import pickle
+    with open(types_file, 'rb') as file:
+        csl_types = pickle.load(file)
+    df = pd.read_csv(filename, index_col=0, header=0, skip_blank_lines=True, dtype=csl_types)
+
+    return df
+
