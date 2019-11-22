@@ -1,17 +1,26 @@
 ##############################################################################
 # Convert all float columns that are actually integers with some NaN values
+# Note than IntegerArrays are an experimental addition in Pandas 0.24. They
+# allow integer columns to contain NaN fields like float columns.
+#
+# This is a rather brute-force technique that loops through every column
+# and every row. There's likely a more efficient way to do it since it
+# takes a long time (7-8 min. on ceb-bopf-vm) and uses up a lot of memory.
 ##############################################################################
 import pandas as pd
 def convert_integer(df):
     type_dict = {}
     for col in df.columns:
         intcol_flag = True
-        if df[col].dtype == 'float64':
+        if df[col].dtype == 'float64':  # assuming float dytpe is "float64"
             # Inner loop makes this very slow, but can't find a vectorized solution
             for val in df[col]:
+                # If not NaN and the int() value is different from
+                # the float value, then we have an actual float.
                 if pd.notnull(val) and abs(val - int(val)) > 1e-6:
                     intcol_flag = False
                     break;
+            # If not a float, change it to an Int based on size
             if intcol_flag:
                 if df[col].abs().max() < 127:
                     df[col] = df[col].astype('Int8')
