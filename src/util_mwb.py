@@ -58,9 +58,13 @@ def subset_csv(filename='../data/csl/preg_link.csv', rows=100, columns=10, rando
 ############################################################
 def read_csl_csv(filename='../data/csl/preg_link.csv', types_file='./csl_types.pickle'):
     import pickle
-    with open(types_file, 'rb') as file:
-        csl_types = pickle.load(file)
-    df = pd.read_csv(filename, index_col=0, header=0, skip_blank_lines=True, dtype=csl_types)
+    print(f'types_file = {types_file}')
+    if types_file is not None:
+        with open(types_file, 'rb') as file:
+            csl_types = pickle.load(file)
+        df = pd.read_csv(filename, index_col=0, header=0, skip_blank_lines=True, dtype=csl_types)
+    else:
+        df = pd.read_csv(filename, index_col=0, header=0, skip_blank_lines=True)
 
     return df
 

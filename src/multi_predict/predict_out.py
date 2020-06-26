@@ -2,6 +2,7 @@
 # This file contains functions for outputing
 #
 import time
+import pandas as pd
 
 from sklearn.metrics import confusion_matrix, classification_report, roc_auc_score, f1_score, precision_recall_curve, \
     auc, precision_recall_fscore_support, matthews_corrcoef
@@ -13,10 +14,10 @@ def create_outfile_base(opts, params_dict=None):
     timestamp = str(now.strftime("%Y%m%d_%H%M%S"))
     if params_dict:
         param_str = "_".join([x if isinstance(x, str) else str(x) for x in params_dict.values()])
-        fname = "-".join([opts.target, opts.under_alg, opts.pred_alg, param_str, str(opts.seed), timestamp])
+        fname = "-".join([opts.target, opts.under_alg, opts.pred_alg, param_str, str(opts.seed), str(opts.samp_strat), timestamp])
     else:
         fname = "-".join([opts.target, opts.under_alg, opts.pred_alg, str(opts.seed), timestamp])
-
+    fname = fname.replace(" ", "")
     return opts.output_dir + '/' + fname
 
 
@@ -42,13 +43,21 @@ def save_to_file(y_test, y_pred, X_test, clf, clf_start, opts, params_dict):
         print(f'f1_score = {f1_score(y_test, y_pred, average=None)}', file=outfile)
         print(f'PR_AUC = {pr_auc}', file=outfile)
         print(f'Combo = {combStat}', file=outfile)
+
+        if opts.pred_alg == 'LR':
+            print(f'clf.coef_[0] = {clf.coef_[0]}; type(clf.coef_) = {type(clf.coef_)}', file=outfile)
+            print(f'X_test.columns.dtype = {X_test.columns.dtype}', file=outfile)
+            print(f'X_test.columns.values = {X_test.columns.values}', file=outfile)
+            coeffs = pd.Series(data=clf.coef_[0], index=X_test.columns.values)
+            print(f'coeffs = {coeffs}')
+
     if opts.output_dir:
         import csv
         with open(create_outfile_base(opts, params_dict) + '.csv', 'w', newline='') as csvfile:
             writer = csv.writer(csvfile, lineterminator="\n")
             writer.writerow(["CLF_time(min)", '{:.3f}'.format(clf_min)])
             for arg in vars(opts):
-                if arg in ["target", "under_alg", "pred_alg", "seed"]:
+                if arg in ["target", "under_alg", "pred_alg", "seed", "samp_strat"]:
                     writer.writerow([arg, getattr(opts, arg)])
 
             if opts.pred_params:
