@@ -7,14 +7,15 @@ import os
 from imblearn.under_sampling import RandomUnderSampler
 from collections import Counter
 from stat_mwb import cramers_v_df
-
+from stat_mwb import theils_u_df
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Undersampling comparison script')
     parser.add_argument('--runs', default=1, help='Number of random runs to average')
     parser.add_argument('--infile', required=True, help='Full path of input datafile')
     parser.add_argument('--target', required=True, help='Target y variable in dataset')
-    parser.add_argument('--sampling_strat', default=1.0, help='Target y variable in dataset')
+    parser.add_argument('--sampling_strat', default=1.0, help='Sampling strategy; if float ratio of minority/majority')
+    parser.add_argument('--corr_alg', default='C', help='Correlation algorithm: C -> CramersV; T-> TheilsU')
     parser.add_argument('--seed', help='Initial random seed')
     parser.add_argument('--outdir', help='output data file to be used')
     parser.add_argument('--no_output', help='Do not save results to file')
@@ -28,6 +29,7 @@ def main():
     logging.basicConfig(filename='ucm.log', level=logging.INFO, format='%(asctime)s %(message)s',
                         datefmt='%y%m%d-%H:%M:%S')
     opts = parse_args()
+    print(f'opts = {opts}')
 
     # It is assumed that the input datafile already has collinear variables removed
     df = pd.read_csv(opts.infile, index_col=0)
@@ -40,7 +42,7 @@ def main():
     rank_df = pd.DataFrame()
     # Should consider multi-processing this loop
     for run in range(0, int(opts.runs)):
-        rand_und = RandomUnderSampler(sampling_strategy=opts.sampling_strat)
+        rand_und = RandomUnderSampler(sampling_strategy=float(opts.sampling_strat))
         X_res, y_res = rand_und.fit_resample(X, y)
         y_res_s = pd.Series(y_res)
         xind = X.columns
@@ -62,9 +64,13 @@ def main():
             if all_df[col].unique().shape[0] == 1:
                 print(col)
 
-        c_und = cramers_v_df(all_df)
-        c_und.fillna(0, inplace=True)
-        targ_corr = c_und[opts.target].sort_values(ascending=False)
+        if opts.corr_alg == 'C':
+            corr_und = cramers_v_df(all_df)
+        else:
+            corr_und = theils_u_df(all_df)
+
+        corr_und.fillna(0, inplace=True)
+        targ_corr = corr_und[opts.target].sort_values(ascending=False)
         targ_corr.name = "corr" + str(run)
         targ_rank = targ_corr.rank(method='min', ascending=False).astype(int)
         targ_rank.name = "rank" + str(run)
@@ -89,13 +95,11 @@ def main():
         import datetime
         now = datetime.datetime.now()
         timestamp = str(now.strftime("%Y%m%d_%H%M%S"))
-        #corrfile = '../../data/csl/corr_' + timestamp + '.csv'
-        corrfile = opts.outdir + '/corr_' + timestamp + '.csv'
+        corrfile = opts.outdir + '/corr_' + opts.corr_alg + '_' + timestamp + '.csv'
         if not os.path.exists(corrfile):
             corr_df.to_csv(corrfile, header=True)
 
-        #rankfile = '../../data/csl/rank_' + timestamp + '.csv'
-        rankfile = opts.outdir + '/rank_' + timestamp + '.csv'
+        rankfile = opts.outdir + '/rank_' + opts.corr_alg + '_' + timestamp + '.csv'
         if not os.path.exists(rankfile):
             rank_df.to_csv(rankfile, header=True)
 
