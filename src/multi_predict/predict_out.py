@@ -3,6 +3,7 @@
 #
 import time
 import pandas as pd
+import numpy as np
 
 from sklearn.metrics import confusion_matrix, classification_report, roc_auc_score, f1_score, precision_recall_curve, \
     auc, precision_recall_fscore_support, matthews_corrcoef
@@ -45,11 +46,11 @@ def save_to_file(y_test, y_pred, X_test, clf, clf_start, opts, params_dict):
         print(f'Combo = {combStat}', file=outfile)
 
         if opts.pred_alg == 'LR':
-            print(f'clf.coef_[0] = {clf.coef_[0]}; type(clf.coef_) = {type(clf.coef_)}', file=outfile)
             print(f'X_test.columns.dtype = {X_test.columns.dtype}', file=outfile)
             print(f'X_test.columns.values = {X_test.columns.values}', file=outfile)
-            coeffs = pd.Series(data=clf.coef_[0], index=X_test.columns.values)
-            print(f'coeffs = {coeffs}')
+            coeffs = pd.Series(data=np.abs(clf.coef_[0]), index=X_test.columns.values)
+            coeffs.sort_values(inplace=True,ascending=False)
+            print(f'coeffs = \n{coeffs}', file=outfile)
 
     if opts.output_dir:
         import csv

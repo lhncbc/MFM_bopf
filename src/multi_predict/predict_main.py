@@ -17,6 +17,8 @@ from sklearn.svm import SVC, LinearSVC
 from sklearn.neural_network import MLPClassifier
 
 from predict_out import save_to_file
+from stat_mwb import under_samp
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description='MFM prediction script')
@@ -53,20 +55,25 @@ def main():
 
     # Create stratifed train_test split before under-sampling
     X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, test_size=0.30)
+    print(f'type(X_train) = {type(X_train)}')
+    print(f'type(y_train) = {type(y_train)}')
+    print(f'X_train.head() = {X_train.head()}')
+    print(f'y_train = {y_train}')
 
     # Start timer
     und_start = time.time()
     # Perform undersampling
     if opts.under_alg == 'random':
-        rand_und = RandomUnderSampler(sampling_strategy = float(opts.samp_strat))
-        X_res, y_res = rand_und.fit_resample(X_train, y_train)
-        print(f'X_res.shape = {X_res.shape}; y_res.shape={y_res.shape}')
+        X_res, y_res = under_samp(X_train, y_train, opts.samp_strat, opts.target, cohort=None)
+        #rand_und = RandomUnderSampler(sampling_strategy = float(opts.samp_strat))
+        #X_res, y_res = rand_und.fit_resample(X_train, y_train)
+        print(f'X_res =\n {X_res}; y_res=\n{y_res}')
         print(f'np.bincount(y_res)={np.bincount(y_res)}')
     else:
         X_res, y_res = cohort_under(opts.under_alg)
     und_end = time.time()
 
-    params_dict=json.loads(opts.pred_params)
+    params_dict = json.loads(opts.pred_params)
     params_list = list(ParameterGrid(params_dict))
     print(f'\n\nparams_list = {params_list}\n\n')
 
