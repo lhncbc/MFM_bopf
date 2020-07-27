@@ -6,6 +6,9 @@ import math
 import scipy.stats as ss
 from collections import Counter
 
+from imblearn.under_sampling import RandomUnderSampler
+
+
 def cramers_v(x, y):
     confusion_matrix = pd.crosstab(x,y)
     chi2 = ss.chi2_contingency(confusion_matrix)[0]
@@ -18,6 +21,8 @@ def cramers_v(x, y):
     return np.sqrt(phi2corr/min((kcorr-1),(rcorr-1)))
 
 
+# @TODO - don't calculate upper-right half of matrix since it is symmetric
+# @TODO - consider multiprocessing
 def cramers_v_df(df) -> pd.DataFrame:
     numcols = df.shape[1]
     cdf = pd.DataFrame(np.zeros((numcols, numcols)), index=df.columns, columns=df.columns)
@@ -63,4 +68,43 @@ def theils_u_df(df) -> pd.DataFrame:
             tu = theils_u(df[col1], df[col2])
             udf.loc[col1, col2] = tu
     return udf
+
+
+def under_samp(X, y, sampling_strat, target, under_method):
+    print(f'under_method = {under_method}')
+    if under_method == 'RAND':
+        print("Random")
+        rand_und = RandomUnderSampler(sampling_strategy=sampling_strat)
+        X_res, y_res = rand_und.fit_resample(X, y)
+    else:  # Assuming cohort undersampling
+        print(f'cohort = {under_method}')
+        cohort = under_method
+        full_df = X.copy()
+        full_df.insert(0, target, y)
+        #print(full_df[[target, cohort]].groupby([target, cohort]).size())
+        #print(f'full_df[target].value_counts() =\n{full_df[target].value_counts()}')
+
+        # @TODO - Remove "hardcoded" 1's and 2's
+        # Create DataFrame of "majority" (target = '1') and distribution of cohort
+        major_df = full_df[full_df[target] == 1]
+        major_dist = major_df[cohort].value_counts(normalize=True, sort=False).sort_index()
+
+        # Create DataFrame of "minority" (target = '2') and corresponding distribution
+        minor_df = full_df[full_df[target] == 2]
+        minor_dist = minor_df[cohort].value_counts(normalize=True, sort=False).sort_index()
+
+        # Create sample distribution rate and map it against the dataset cohort
+        samp_dist = minor_dist / major_dist
+        cohort_dist = full_df[cohort].map(samp_dist)
+
+        # Randomly sample the majority class based on the sampling_strat
+        samp_cnt = int(len(minor_df.index)/sampling_strat)
+        major_sample_df = major_df.sample(n=samp_cnt, weights=cohort_dist)
+        cohort_df = pd.concat([major_sample_df, minor_df])
+
+        # return X & y by pulling target out separately
+        X_res = cohort_df.drop(target, axis=1, inplace=False)
+        y_res = cohort_df[target]
+
+    return X_res, y_res
 
