@@ -104,6 +104,7 @@ def under_samp(X, y, sampling_strat, target, under_method):
 
         # return X & y by pulling target out separately
         X_res = cohort_df.drop(target, axis=1, inplace=False)
+        print(f'len(X_res.index) = {len(X_res.index)}')
         y_res = cohort_df[target]
 
     return X_res, y_res

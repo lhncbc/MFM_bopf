@@ -63,7 +63,9 @@ def collect_results(result):
 
 # Need to reset random seed for each process
 def proc_init():
+    print(f'partial random state before = {np.random.get_state()[1][0:5]}')
     np.random.seed()
+    print(f'partial random state after = {np.random.get_state()[1][0:5]}')
 
 
 def main():
@@ -119,15 +121,15 @@ def main():
         import datetime
         pd.options.display.float_format = '${:,.5f}'.format
         now = datetime.datetime.now()
-        timestamp = str(now.strftime("%Y%m%d_%H%M%S"))
+        timestamp = str(now.strftime("%Y%m%d-%H%M%S"))
 
-        corrfile = opts.outdir + '/corr_' + opts.target + '_' + str(opts.under) + '_' + \
-                   opts.corr_alg + '_' + opts.seed + '_' + timestamp + '.csv'
-        corr_df.to_csv(corrfile, header=True, float_format='%.6f')
+        corrbase = "_".join(['/corr', opts.target, opts.under, str(opts.sampling_strat),
+                             opts.corr_alg, str(opts.seed), timestamp])
+        corr_df.to_csv(opts.outdir + '/' + corrbase + '.csv', header=True, float_format='%.6f')
 
-        rankfile = opts.outdir + '/rank_' + opts.target + '_' + str(opts.under) + '_' + \
-                   opts.corr_alg + '_' + opts.seed + '_' + timestamp + '.csv'
-        rank_df.to_csv(rankfile, header=True)
+        rankbase = "_".join(['/rank', opts.target, opts.under, str(opts.sampling_strat),
+                             opts.corr_alg, str(opts.seed), timestamp])
+        rank_df.to_csv(opts.outdir + '/' + rankbase + '.csv', header=True)
 
 
 if __name__ == '__main__':
