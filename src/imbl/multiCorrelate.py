@@ -84,6 +84,7 @@ def main():
     y = df[opts.target]
 
     pool = mp.Pool(processes=int(opts.nprocs), initializer=proc_init)
+    #pool = mp.Pool(processes=int(opts.nprocs))
     for run in range(0, int(opts.runs)):
         pool.apply_async(under_corr, args=(X, y, opts), callback=collect_results)
 
@@ -121,15 +122,15 @@ def main():
         import datetime
         pd.options.display.float_format = '${:,.5f}'.format
         now = datetime.datetime.now()
-        timestamp = str(now.strftime("%Y%m%d-%H%M%S"))
+        timestamp = str(now.strftime("%Y%m%d_%H%M%S"))
 
-        corrbase = "_".join(['/corr', opts.target, opts.under, str(opts.sampling_strat),
+        basename = "-".join([opts.target, opts.under, str(opts.sampling_strat),
                              opts.corr_alg, str(opts.seed), timestamp])
-        corr_df.to_csv(opts.outdir + '/' + corrbase + '.csv', header=True, float_format='%.6f')
+        corr_df.to_csv(opts.outdir + '/corr-' + basename + '.csv', header=True, float_format='%.6f')
+        rank_df.to_csv(opts.outdir + '/rank-' + basename + '.csv', header=True)
 
-        rankbase = "_".join(['/rank', opts.target, opts.under, str(opts.sampling_strat),
-                             opts.corr_alg, str(opts.seed), timestamp])
-        rank_df.to_csv(opts.outdir + '/' + rankbase + '.csv', header=True)
+        # This is the full correlation matrix for the last run, only
+        corr_und_df.to_csv(opts.outdir + '/FULLcorr-' + basename + '.csv', header=True, float_format='%.6f')
 
 
 if __name__ == '__main__':

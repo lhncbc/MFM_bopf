@@ -66,7 +66,7 @@ def theils_u_df(df) -> pd.DataFrame:
     for col1 in df.columns:
         for col2 in df.columns:
             tu = theils_u(df[col1], df[col2])
-            udf.loc[col1, col2] = tu
+            udf.loc[col2, col1] = tu
     return udf
 
 
