@@ -24,7 +24,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description='MFM prediction script')
     parser.add_argument('--target', required=True, help='Target y variable in dataset')
     parser.add_argument('--infile', required=True, help='Full path of input datafile')
-    parser.add_argument('--under_alg', default="random", help='"random" | <cohort varname>')
+    parser.add_argument('--under_alg', default="RAND", help='"RAND" | <cohort varname>')
     parser.add_argument('--pred_alg', default="NB", help='Prediction method; NB | LR | SVC | LSVC | MLP | etc')
     parser.add_argument('--pred_params', default=None, help='String-based Dictionary of algorithm-specific tuning parameters')
     parser.add_argument('--seed', default=0, help='Initial random seed')
@@ -62,15 +62,15 @@ def main():
 
     # Start timer
     und_start = time.time()
-    # Perform undersampling
-    if opts.under_alg == 'random':
-        X_res, y_res = under_samp(X_train, y_train, opts.samp_strat, opts.target, cohort=None)
-        #rand_und = RandomUnderSampler(sampling_strategy = float(opts.samp_strat))
-        #X_res, y_res = rand_und.fit_resample(X_train, y_train)
+    # No undersampling - NOTE: this will take considerably longer in prediction
+    if opts.under_alg == 'NONE':
+        X_res, y_res = X, y
+    else:
+        # Perform undersampling
+        X_res, y_res = under_samp(X_train, y_train, float(opts.samp_strat), opts.target, opts.under_alg)
         print(f'X_res =\n {X_res}; y_res=\n{y_res}')
         print(f'np.bincount(y_res)={np.bincount(y_res)}')
-    else:
-        X_res, y_res = cohort_under(opts.under_alg)
+
     und_end = time.time()
 
     params_dict = json.loads(opts.pred_params)
