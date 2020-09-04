@@ -47,6 +47,11 @@ def main():
 
     # Read list of Correlated variable names. No errors produced if the names don't match anything.
     corrVars = pd.read_csv(opts.corr_var_file, header=None)[0].to_list()
+    if opts.under_alg not in corrVars:
+        if opts.under_alg != 'NONE' and opts.under_alg != 'RAND':
+            corrVars.append(opts.under_alg)
+            print(f'corrVars = {corrVars}')
+
     X = X.loc[:, X.columns.intersection(corrVars)]
     print(f'X.columns = {X.columns}')
 
