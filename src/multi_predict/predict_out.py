@@ -72,18 +72,18 @@ def save_to_file(y_test, y_pred, X_test, clf, clf_start, opts, params_dict):
             writer.writerow(["TP", tp])
 
             prec, rec, f1, supp = precision_recall_fscore_support(y_test, y_pred, average=None)
-            writer.writerow(["precision_2", '{:.3f}'.format(prec[1])])
-            writer.writerow(["recall_2", '{:.3f}'.format(rec[1])])
-            writer.writerow(["F1_2", '{:.3f}'.format(f1[1])])
+            writer.writerow(["precision_2", '{:.4f}'.format(prec[1])])
+            writer.writerow(["recall_2", '{:.4f}'.format(rec[1])])
+            writer.writerow(["F1_2", '{:.4f}'.format(f1[1])])
 
-            writer.writerow(["precision_macro", '{:.3f}'.format(precm)])
-            writer.writerow(["recall_macro", '{:.3f}'.format(recm)])
-            writer.writerow(["F1_macro", '{:.3f}'.format(f1m)])
+            writer.writerow(["precision_macro", '{:.4f}'.format(precm)])
+            writer.writerow(["recall_macro", '{:.4f}'.format(recm)])
+            writer.writerow(["F1_macro", '{:.4f}'.format(f1m)])
 
-            writer.writerow(["ROC_AUC", '{:.3f}'.format(roc_auc)])
+            writer.writerow(["ROC_AUC", '{:.4f}'.format(roc_auc)])
 
-            writer.writerow(["PR_AUC", '{:.3f}'.format(pr_auc)])
-            writer.writerow(["MCC", '{:.3f}'.format(mcc)])
+            writer.writerow(["PR_AUC", '{:.4f}'.format(pr_auc)])
+            writer.writerow(["MCC", '{:.4f}'.format(mcc)])
 
             # Create average meta-statistic for easy comparison (higher is better)
-            writer.writerow(["Combo", '{:.3f}'.format(combStat)])
+            writer.writerow(["Combo", '{:.4f}'.format(combStat)])
