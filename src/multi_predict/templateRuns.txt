@@ -1,0 +1,97 @@
+**************
+* transfus_yes
+**************
+export pred_params='[{"random_state":[7,11],"solver":["liblinear"],"max_iter":[10000000],"C":[0.1,1,10,100,1000,10000,100000]}]'
+export pred_params='[{"random_state":[7,11],"solver":["liblinear"],"max_iter":[10000000],"C":[1,0.1,0.01,0.001,0.0001]}]'
+export pred_params='[{"random_state":[7,11],"solver":["lbfgs"],"max_iter":[10000000],"C":[0.1,1,10,100,1000,10000,100000]}]'
+export pred_params='[{"random_state":[7,11],"solver":["lbfgs"],"max_iter":[10000000],"C":[1,0.1,0.01,0.001,0.0001]}]'
+
+----------------
+export pred_params='[{"random_state":[7,11],"solver":["liblinear"],"max_iter":[10000000],"C":[0.1,1,10,100,1000,10000,100000]}]'
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_yes-Cramer.txt',under_alg='Hostype',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_yes-Cramer.txt',under_alg='high_Age',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_yes-Cramer.txt',under_alg='Insurance',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_yes-Cramer.txt',under_alg='momrace_new',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_yes-Cramer.txt',under_alg='NONE',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_yes-Cramer.txt',under_alg='RAND',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+
+------------------
+export pred_params='[{"random_state":[7,11],"solver":["liblinear"],"max_iter":[10000000],"C":[1,0.1,0.01,0.001,0.0001]}]'
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_yes-Cramer.txt',under_alg='Hostype',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_yes-Cramer.txt',under_alg='high_Age',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_yes-Cramer.txt',under_alg='Insurance',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_yes-Cramer.txt',under_alg='momrace_new',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_yes-Cramer.txt',under_alg='NONE',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_yes-Cramer.txt',under_alg='RAND',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+
+------------------
+export pred_params='[{"random_state":[7,11],"solver":["lbfgs"],"max_iter":[10000000],"C":[0.1,1,10,100,1000,10000,100000]}]'
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_yes-Cramer.txt',under_alg='Hostype',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_yes-Cramer.txt',under_alg='high_Age',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_yes-Cramer.txt',under_alg='Insurance',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_yes-Cramer.txt',under_alg='momrace_new',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_yes-Cramer.txt',under_alg='NONE',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_yes-Cramer.txt',under_alg='RAND',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+
+------------------
+export pred_params='[{"random_state":[7,11],"solver":["lbfgs"],"max_iter":[10000000],"C":[1,0.1,0.01,0.001,0.0001]}]'
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_yes-Cramer.txt',under_alg='Hostype',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_yes-Cramer.txt',under_alg='high_Age',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_yes-Cramer.txt',under_alg='Insurance',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_yes-Cramer.txt',under_alg='momrace_new',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_yes-Cramer.txt',under_alg='NONE',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_yes-Cramer.txt',under_alg='RAND',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+
+------------------
+export pred_params='[{"random_state":[7,11],"solver":["liblinear"],"max_iter":[10000000],"C":[0.1,1,10,100,1000,10000,100000]}]'
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_yes-Cramer.txt',under_alg='Hostype',pred_alg='LR',samp_strat=0.25,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_yes-Cramer.txt',under_alg='high_Age',pred_alg='LR',samp_strat=0.25,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_yes-Cramer.txt',under_alg='Insurance',pred_alg='LR',samp_strat=0.25,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_yes-Cramer.txt',under_alg='momrace_new',pred_alg='LR',samp_strat=0.25,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_yes-Cramer.txt',under_alg='NONE',pred_alg='LR',samp_strat=0.25,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_yes-Cramer.txt',under_alg='RAND',pred_alg='LR',samp_strat=0.25,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+
+
+*****************
+* transfus_hyster
+*****************
+export pred_params='[{"random_state":[7,11],"solver":["liblinear"],"max_iter":[10000000],"C":[0.1,1,10,100,1000,10000,100000]}]'
+sbatch --export=target='transfus_hyster',infile='../../data/csl/CSL_d5_transfus_hyster_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_hyster-Cramer.txt',under_alg='NONE',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='transfus_hyster',infile='../../data/csl/CSL_d5_transfus_hyster_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_hyster-Cramer.txt',under_alg='RAND',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='transfus_hyster',infile='../../data/csl/CSL_d5_transfus_hyster_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_hyster-Cramer.txt',under_alg='Insurance',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='transfus_hyster',infile='../../data/csl/CSL_d5_transfus_hyster_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_hyster-Cramer.txt',under_alg='high_Age',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='transfus_hyster',infile='../../data/csl/CSL_d5_transfus_hyster_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_hyster-Cramer.txt',under_alg='momrace_new',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='transfus_hyster',infile='../../data/csl/CSL_d5_transfus_hyster_2020-08-21.csv',corr_var_file='../../data/csl/top50-transfus_hyster-Cramer.txt',under_alg='Hostype',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+
+*****************
+* trans_loss
+*****************
+export pred_params='[{"random_state":[7,11],"solver":["liblinear"],"max_iter":[10000000],"C":[0.1,1,10,100,1000,10000,100000]}]'
+sbatch --export=target='trans_loss',infile='../../data/csl/CSL_d5_trans_loss_2020-08-21.csv',corr_var_file='../../data/csl/top50-trans_loss-Cramer.txt',under_alg='NONE',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='trans_loss',infile='../../data/csl/CSL_d5_trans_loss_2020-08-21.csv',corr_var_file='../../data/csl/top50-trans_loss-Cramer.txt',under_alg='RAND',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='trans_loss',infile='../../data/csl/CSL_d5_trans_loss_2020-08-21.csv',corr_var_file='../../data/csl/top50-trans_loss-Cramer.txt',under_alg='Insurance',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='trans_loss',infile='../../data/csl/CSL_d5_trans_loss_2020-08-21.csv',corr_var_file='../../data/csl/top50-trans_loss-Cramer.txt',under_alg='high_Age',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='trans_loss',infile='../../data/csl/CSL_d5_trans_loss_2020-08-21.csv',corr_var_file='../../data/csl/top50-trans_loss-Cramer.txt',under_alg='momrace_new',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='trans_loss',infile='../../data/csl/CSL_d5_trans_loss_2020-08-21.csv',corr_var_file='../../data/csl/top50-trans_loss-Cramer.txt',under_alg='Hostype',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+
+*****************
+* Hysterectomy
+*****************
+export pred_params='[{"random_state":[7,11],"solver":["liblinear"],"max_iter":[10000000],"C":[0.1,1,10,100,1000,10000,100000]}]'
+sbatch --export=target='Hysterectomy',infile='../../data/csl/CSL_d5_Hysterectomy_2020-08-21.csv',corr_var_file='../../data/csl/top50-Hysterectomy-Cramer.txt',under_alg='NONE',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='Hysterectomy',infile='../../data/csl/CSL_d5_Hysterectomy_2020-08-21.csv',corr_var_file='../../data/csl/top50-Hysterectomy-Cramer.txt',under_alg='RAND',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='Hysterectomy',infile='../../data/csl/CSL_d5_Hysterectomy_2020-08-21.csv',corr_var_file='../../data/csl/top50-Hysterectomy-Cramer.txt',under_alg='Insurance',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='Hysterectomy',infile='../../data/csl/CSL_d5_Hysterectomy_2020-08-21.csv',corr_var_file='../../data/csl/top50-Hysterectomy-Cramer.txt',under_alg='high_Age',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='Hysterectomy',infile='../../data/csl/CSL_d5_Hysterectomy_2020-08-21.csv',corr_var_file='../../data/csl/top50-Hysterectomy-Cramer.txt',under_alg='momrace_new',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+sbatch --export=target='Hysterectomy',infile='../../data/csl/CSL_d5_Hysterectomy_2020-08-21.csv',corr_var_file='../../data/csl/top50-Hysterectomy-Cramer.txt',under_alg='Hostype',pred_alg='LR',samp_strat=1.0,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+
+-------------------
+export pred_params='[{"random_state":[7],"solver":["liblinear"],"max_iter":[100000,1000000,10000000],"C":[10,100,1000,10000,100000]}]'
+sbatch --export=target='trans_loss',infile='../../data/csl/CSL_d5_trans_loss_2020-08-21.csv',under_alg='high_Age',pred_alg='LR',corr_var_file='../../data/csl/top50-trans_loss-Cramer.txt',samp_strat=0.25,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+
+export pred_params='[{"random_state":[7],"solver":["liblinear"],"max_iter":[100000,1000000,10000000],"C":[10,100,1000,10000,100000]}]'
+sbatch --export=target='trans_loss',infile='../../data/csl/CSL_d5_trans_loss_2020-08-21.csv',under_alg='momrace_new',pred_alg='LR',corr_var_file='../../data/csl/top50-trans_loss-Cramer.txt',samp_strat=0.25,nproc=15,seed=1,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+
+export pred_params='[{"random_state":[7],"solver":["liblinear"],"max_iter":[100000,1000000,10000000],"C":[10,100,1000,10000,100000]}]'
+sbatch --export=target='trans_loss',infile='../../data/csl/CSL_d5_trans_loss_2020-08-21.csv',under_alg='RAND',pred_alg='LR',corr_var_file='../../data/csl/top50-trans_loss-Cramer.txt',samp_strat=1.0,nproc=15,seed=11,output_dir='./output',pred_params,PATH multiPredTmplt.sh
+
