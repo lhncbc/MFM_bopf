@@ -37,7 +37,7 @@ def parse_args():
     parser.add_argument('--samp_strat', default=1.0,
                         help='Value of undersampling "sampling_strategy" param')
     parser.add_argument('--nproc', default=1, help='Number of proccesses to run')
-    parser.add_argument('--sample_tts', action='store_true',
+    parser.add_argument('--sample_tts', default=0,
                         help='Sample both the test and train data; if not set, only sample training data')
 
     args = parser.parse_args()
