@@ -66,7 +66,7 @@ def main():
         np.random.seed(int(opts.seed))
 
     # Create stratifed train_test split before under-sampling if opts.sample_tts is set
-    if opts.sample_tts:
+    if opts.sample_tts == 1:
         # No undersampling - NOTE: this could take considerably longer in prediction
         if opts.under_alg == 'NONE':
             X_res_t, y_res_t = X, y
