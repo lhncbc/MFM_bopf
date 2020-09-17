@@ -67,28 +67,20 @@ def main():
 
     # Create stratifed train_test split before under-sampling if opts.sample_tts is set
     if opts.sample_tts == 1:
-        # No undersampling - NOTE: this could take considerably longer in prediction
+        # No undersampling - NOTE: this combination makes no sense - can't sample tts if NONE
         if opts.under_alg == 'NONE':
             X_res_t, y_res_t = X, y
         else:
             X_res_t, y_res_t = under_samp(X, y, float(opts.samp_strat), opts.target, opts.under_alg)
 
-        print(f'X_res_t.shape = {X_res_t.shape}')
-        print(f'y_res_t.shape = {y_res_t.shape}')
         X_res, X_test, y_res, y_test = train_test_split(X_res_t, y_res_t, stratify=y_res_t, test_size=0.30)
     else:
         X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, test_size=0.30)
-        print(f'X_train.shape = {X_train.shape}')
-        print(f'y_train.shape = {y_train.shape}')
         # No undersampling - NOTE: this could take considerably longer in prediction
         if opts.under_alg == 'NONE':
             X_res, y_res = X_train, y_train
         else:
             X_res, y_res = under_samp(X_train, y_train, float(opts.samp_strat), opts.target, opts.under_alg)
-
-    print(f'X_res =\n {X_res}; y_res=\n{y_res}')
-    print(f'X_res.shape =\n {X_res.shape}; y_res.shape=\n{y_res.shape}')
-    print(f'np.bincount(y_res)={np.bincount(y_res)}')
 
     params_dict = json.loads(opts.pred_params)
     params_list = list(ParameterGrid(params_dict))
@@ -101,12 +93,17 @@ def main():
         else:
             clf_predict(params, X_res, y_res, X_test, y_test, opts)
 
+    print(f'before pool.close()')
     pool.close()
+    print(f'after pool.close()')
     pool.join()
+    print(f'after pool.join()')
 
 
 def clf_predict(params, X_train, y_train, X_test, y_test, opts):
     try:
+        print(f'In clf_predict')
+        print(f'params= {params}')
         clf = None
         if opts.pred_alg == 'NB':
             clf = GaussianNB(**params)
@@ -126,8 +123,10 @@ def clf_predict(params, X_train, y_train, X_test, y_test, opts):
         # Classifier
         clf_start = time.time()
         clf.fit(X_train, y_train)
+        print('After clf.fit')
         y_pred = clf.predict(X_test)
-        save_to_file(y_test, y_pred, X_test, clf, clf_start, opts, params)
+        print('After clf.predict')
+        save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts, params)
     except Exception as e:
         print(f'caught exception in worker thread: {e}')
         raise e
