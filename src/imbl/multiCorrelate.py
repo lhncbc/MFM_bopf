@@ -63,9 +63,7 @@ def collect_results(result):
 
 # Need to reset random seed for each process
 def proc_init():
-    print(f'partial random state before = {np.random.get_state()[1][0:5]}')
     np.random.seed()
-    print(f'partial random state after = {np.random.get_state()[1][0:5]}')
 
 
 def main():
