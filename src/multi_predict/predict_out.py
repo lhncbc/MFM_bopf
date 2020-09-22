@@ -51,7 +51,8 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
         print(f'PR_AUC = {pr_auc}', file=outfile)
         print(f'Combo = {combStat}', file=outfile)
 
-        if opts.pred_alg == 'LR':
+#        if opts.pred_alg == 'LR' or opts.pred_alg == 'SVC' or xopts.pred_alg == 'LSVC':
+         if hasattr(clf, 'coef_'):
             coeffs = pd.Series(data=np.abs(clf.coef_[0]), index=X_test.columns.values)
             coeffs.sort_values(inplace=True,ascending=False)
             print(f'coeffs = \n{coeffs}', file=outfile)
@@ -62,7 +63,7 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
             writer = csv.writer(csvfile, lineterminator="\n")
             writer.writerow(["CLF_time(min)", '{:.3f}'.format(clf_min)])
             for arg in vars(opts):
-                if arg in ["target", "under_alg", "pred_alg", "seed", "samp_strat"]:
+                if arg in ["target", "sample_tts", "under_alg", "pred_alg", "seed", "samp_strat"]:
                     writer.writerow([arg, getattr(opts, arg)])
 
             if opts.pred_params:

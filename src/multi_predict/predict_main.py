@@ -66,7 +66,9 @@ def main():
         np.random.seed(int(opts.seed))
 
     # Create stratifed train_test split before under-sampling if opts.sample_tts is set
-    if opts.sample_tts == 1:
+    print(f'type(opts.sample_tts) = {type(opts.sample_tts)}')
+    if int(opts.sample_tts) == 1:
+        print('sample_tts == 1')
         # No undersampling - NOTE: this combination makes no sense - can't sample tts if NONE
         if opts.under_alg == 'NONE':
             X_res_t, y_res_t = X, y
@@ -75,6 +77,7 @@ def main():
 
         X_res, X_test, y_res, y_test = train_test_split(X_res_t, y_res_t, stratify=y_res_t, test_size=0.30)
     else:
+        print('sample_tts != 1')
         X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, test_size=0.30)
         # No undersampling - NOTE: this could take considerably longer in prediction
         if opts.under_alg == 'NONE':
