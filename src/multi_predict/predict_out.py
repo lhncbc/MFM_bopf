@@ -52,9 +52,16 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
         print(f'Combo = {combStat}', file=outfile)
 
         # if opts.pred_alg == 'LR' or opts.pred_alg == 'SVC' or xopts.pred_alg == 'LSVC':
-        if hasattr(clf, 'coef_'):
-            coeffs = pd.Series(data=np.abs(clf.coef_[0]), index=X_test.columns.values)
-            coeffs.sort_values(inplace=True,ascending=False)
+        if hasattr(clf, 'coef_') or hasattr(clf, 'coefs_'):
+            if hasattr(clf, 'coef_'):
+                coeffs = pd.Series(data=np.abs(clf.coef_[0]), index=X_test.columns.values)
+            #    coeffs.sort_values(inplace=True, ascending=False)
+            #    print(f'coeffs = \n{coeffs}', file=outfile)
+            elif hasattr(clf, 'coefs_'):
+                coef_df = pd.DataFrame(np.abs(clf.coefs_[0]), index=X_test.columns.values)
+                coeffs = coef_df.apply(np.mean, axis=1)
+
+            coeffs.sort_values(inplace=True, ascending=False)
             print(f'coeffs = \n{coeffs}', file=outfile)
 
     if opts.output_dir:
