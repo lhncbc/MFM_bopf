@@ -96,11 +96,8 @@ def main():
         else:
             clf_predict(params, X_res, y_res, X_test, y_test, opts)
 
-    print(f'before pool.close()')
     pool.close()
-    print(f'after pool.close()')
     pool.join()
-    print(f'after pool.join()')
 
 
 def clf_predict(params, X_train, y_train, X_test, y_test, opts):

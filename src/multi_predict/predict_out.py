@@ -36,7 +36,8 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
     combStat = (precm + recm + f1m + mcc) / 4
 
     clf_min = (time.time() - clf_start) / 60
-    with open(create_outfile_base(opts, params_dict) + '.out', 'w', newline='') as outfile:
+    outfile_base = create_outfile_base(opts, params_dict)
+    with open(outfile_base + '.out', 'w', newline='') as outfile:
         print(f'X_train.shape =\n {X_train.shape}; y_train.shape=\n{y_train.shape}')
         print(f'X_test.shape =\n {X_test.shape}; y_test.shape=\n{y_test.shape}')
         print(f'np.bincount(y_train)={np.bincount(y_train)}')
@@ -61,12 +62,16 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
                 coef_df = pd.DataFrame(np.abs(clf.coefs_[0]), index=X_test.columns.values)
                 coeffs = coef_df.apply(np.mean, axis=1)
 
+            # Remove opts.under_alg from coeffs as it sometimes produces NaN
+            #if opts.under_alg in coeffs.index:
+            #    coeffs.drop(opts.under_alg, inplace=True)
+
             coeffs.sort_values(inplace=True, ascending=False)
-            print(f'coeffs = \n{coeffs}', file=outfile)
+            print(f'coeffs = \n{coeffs.to_string()}', file=outfile)
 
     if opts.output_dir:
         import csv
-        with open(create_outfile_base(opts, params_dict) + '.csv', 'w', newline='') as csvfile:
+        with open(outfile_base + '.csv', 'w', newline='') as csvfile:
             writer = csv.writer(csvfile, lineterminator="\n")
             writer.writerow(["CLF_time(min)", '{:.3f}'.format(clf_min)])
             for arg in vars(opts):
