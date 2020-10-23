@@ -9,7 +9,7 @@ import multiprocessing as mp
 
 from sklearn.model_selection import train_test_split, ParameterGrid
 from imblearn.under_sampling import RandomUnderSampler
-from sklearn.naive_bayes import GaussianNB
+from sklearn.naive_bayes import GaussianNB, CategoricalNB
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.calibration import CalibratedClassifierCV
@@ -107,6 +107,10 @@ def clf_predict(params, X_train, y_train, X_test, y_test, opts):
         clf = None
         if opts.pred_alg == 'NB':
             clf = GaussianNB(**params)
+        # WARNING: CategoricalNB not currently working due to bug that may be fixed in
+        #          sklearn 0.24.
+        elif opts.pred_alg == 'CNB':
+            clf = CategoricalNB(**params)
         elif opts.pred_alg == 'LR':
             clf = LogisticRegression(**params)
         elif opts.pred_alg == 'RF':
@@ -125,8 +129,9 @@ def clf_predict(params, X_train, y_train, X_test, y_test, opts):
         clf.fit(X_train, y_train)
         print('After clf.fit')
         y_pred = clf.predict(X_test)
-        print('After clf.predict')
         save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts, params)
+        if hasattr(clf, 'n_iter_'):
+            print(f'clf.n_iter_ = {clf.n_iter_}')
     except Exception as e:
         print(f'caught exception in worker thread: {e}')
         raise e

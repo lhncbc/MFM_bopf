@@ -55,7 +55,12 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
         # if opts.pred_alg == 'LR' or opts.pred_alg == 'SVC' or xopts.pred_alg == 'LSVC':
         if hasattr(clf, 'coef_') or hasattr(clf, 'coefs_'):
             if hasattr(clf, 'coef_'):
-                coeffs = pd.Series(data=np.abs(clf.coef_[0]), index=X_test.columns.values)
+                # CategoricalNB not working...
+                if opts.pred_alg == 'CNB':
+                    print(f'type(clf.coef_) = \n{type(clf.coef_)}', file=outfile)
+                    coeffs = pd.Series()
+                else:
+                    coeffs = pd.Series(data=np.abs(clf.coef_[0]), index=X_test.columns.values)
             #    coeffs.sort_values(inplace=True, ascending=False)
             #    print(f'coeffs = \n{coeffs}', file=outfile)
             elif hasattr(clf, 'coefs_'):
