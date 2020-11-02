@@ -53,7 +53,7 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
         print(f'Combo = {combStat}', file=outfile)
 
         # if opts.pred_alg == 'LR' or opts.pred_alg == 'SVC' or xopts.pred_alg == 'LSVC':
-        if hasattr(clf, 'coef_') or hasattr(clf, 'coefs_'):
+        if hasattr(clf, 'coef_') or hasattr(clf, 'coefs_') or hasattr(clf, 'feature_importances_'):
             if hasattr(clf, 'coef_'):
                 # CategoricalNB not working...
                 if opts.pred_alg == 'CNB':
@@ -66,6 +66,9 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
             elif hasattr(clf, 'coefs_'):
                 coef_df = pd.DataFrame(np.abs(clf.coefs_[0]), index=X_test.columns.values)
                 coeffs = coef_df.apply(np.mean, axis=1)
+            elif hasattr(clf, 'feature_importances_'):
+                print(f'feat_imp = \n{clf.feature_importances_}', file=outfile)
+                coeffs = pd.Series(data=clf.feature_importances_, index=X_test.columns.values)
 
             # Remove opts.under_alg from coeffs as it sometimes produces NaN
             #if opts.under_alg in coeffs.index:
