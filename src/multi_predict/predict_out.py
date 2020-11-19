@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 
 from sklearn.metrics import confusion_matrix, classification_report, roc_auc_score, f1_score, precision_recall_curve, \
-    auc, precision_recall_fscore_support, matthews_corrcoef
+    auc, precision_recall_fscore_support, matthews_corrcoef, accuracy_score, balanced_accuracy_score, precision_score, recall_score
 
 
 def create_outfile_base(opts, params_dict=None):
@@ -30,6 +30,11 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
     probs = probs[:, 1]  # Only positives
     precision, recall, _ = precision_recall_curve(y_test, probs, pos_label=2)
     pr_auc = auc(recall, precision)
+    accuracy_s = accuracy_score(y_test, y_pred)
+    bal_accuracy_s = balanced_accuracy_score(y_test, y_pred)
+    precision_s = precision_score(y_test, y_pred) # Average = 'binary' uses only 1's
+    recall_s = recall_score(y_test, y_pred) # Average = 'binary' uses only 1's
+    f1_s = f1_score(y_test, y_pred, average=None)
     precm, recm, f1m, suppm = precision_recall_fscore_support(y_test, y_pred, average="macro")
     roc_auc = roc_auc_score(y_test, y_pred)
     mcc = matthews_corrcoef(y_test, y_pred)
@@ -48,7 +53,9 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
         print(f'\nClassification Report:\n {classification_report(y_test, y_pred)}', file=outfile)
         print(f'ROC_AUC = {roc_auc}', file=outfile)
         print(f'MCC = {mcc}', file=outfile)
-        print(f'f1_score = {f1_score(y_test, y_pred, average=None)}', file=outfile)
+        print(f'acc = {accuracy_s}', file=outfile)
+        print(f'bal_acc = {bal_accuracy_s}', file=outfile)
+        print(f'f1_score = {f1_s}', file=outfile)
         print(f'PR_AUC = {pr_auc}', file=outfile)
         print(f'Combo = {combStat}', file=outfile)
 
@@ -97,6 +104,8 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
             writer.writerow(["TP", tp])
 
             prec, rec, f1, supp = precision_recall_fscore_support(y_test, y_pred, average=None)
+            writer.writerow(["acc", '{:.4f}'.format(accuracy_s)])
+            writer.writerow(["bal_acc", '{:.4f}'.format(bal_accuracy_s)])
             writer.writerow(["precision_1", '{:.4f}'.format(prec[0])])
             writer.writerow(["recall_1", '{:.4f}'.format(rec[0])])
             writer.writerow(["F1_1", '{:.4f}'.format(f1[0])])
