@@ -72,6 +72,10 @@ def theils_u_df(df) -> pd.DataFrame:
 
 def under_samp(X, y, sampling_strat, target, under_method):
     print(f'under_method = {under_method}')
+    # Shouldn't depend on this check as it isn't "undersampling"
+    if under_method == 'NONE':
+        return X, y
+
     if under_method == 'RAND':
         print("Random")
         rand_und = RandomUnderSampler(sampling_strategy=sampling_strat)
