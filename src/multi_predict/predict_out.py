@@ -26,6 +26,8 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
 
     # Calculate stats based on algorithm results
     print(f'In save_to_file')
+    print(f'y_test =\n {y_test}')
+    print(f'y_pred =\n {y_pred}')
     probs = clf.predict_proba(X_test)
     probs = probs[:, 1]  # Only positives
     precision, recall, _ = precision_recall_curve(y_test, probs, pos_label=2)
@@ -43,10 +45,10 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
     clf_min = (time.time() - clf_start) / 60
     outfile_base = create_outfile_base(opts, params_dict)
     with open(outfile_base + '.out', 'w', newline='') as outfile:
-        print(f'X_train.shape =\n {X_train.shape}; y_train.shape=\n{y_train.shape}')
-        print(f'X_test.shape =\n {X_test.shape}; y_test.shape=\n{y_test.shape}')
-        print(f'np.bincount(y_train)={np.bincount(y_train)}')
-        print(f'np.bincount(y_test)={np.bincount(y_test)}')
+        print(f'X_train.shape = {X_train.shape}; y_train.shape={y_train.shape}', file=outfile)
+        print(f'X_test.shape = {X_test.shape}; y_test.shape={y_test.shape}', file=outfile)
+        print(f'np.bincount(y_train)={np.bincount(y_train)}', file=outfile)
+        print(f'np.bincount(y_test)={np.bincount(y_test)}', file=outfile)
 
         print(f'\n\nclf.get_params() = {clf.get_params()}\n\n', file=outfile)
         print(confusion_matrix(y_test, y_pred), file=outfile)
