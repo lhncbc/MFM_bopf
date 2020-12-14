@@ -11,7 +11,7 @@ from sklearn.model_selection import train_test_split, ParameterGrid
 from imblearn.under_sampling import RandomUnderSampler
 from sklearn.naive_bayes import GaussianNB, CategoricalNB
 from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.calibration import CalibratedClassifierCV
 from sklearn.svm import SVC, LinearSVC
 from sklearn.neural_network import MLPClassifier
@@ -123,6 +123,8 @@ def clf_predict(params, X_train, y_train, X_test, y_test, opts):
             clf = CalibratedClassifierCV(lsvm)
         elif opts.pred_alg == 'MLP':
             clf = MLPClassifier(**params)
+        elif opts.pred_alg == 'GB':
+            clf = GradientBoostingClassifier(**params)
 
         # Classifier
         clf_start = time.time()
@@ -135,6 +137,7 @@ def clf_predict(params, X_train, y_train, X_test, y_test, opts):
     except Exception as e:
         print(f'caught exception in worker thread: {e}')
         raise e
+
 
 if __name__ == '__main__':
     main()
