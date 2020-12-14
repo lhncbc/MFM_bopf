@@ -6,7 +6,8 @@ import pandas as pd
 import numpy as np
 
 from sklearn.metrics import confusion_matrix, classification_report, roc_auc_score, f1_score, precision_recall_curve, \
-    auc, precision_recall_fscore_support, matthews_corrcoef, accuracy_score, balanced_accuracy_score, precision_score, recall_score
+    auc, precision_recall_fscore_support, matthews_corrcoef, accuracy_score, balanced_accuracy_score, precision_score, \
+    recall_score, roc_curve
 
 
 def create_outfile_base(opts, params_dict=None):
@@ -26,8 +27,8 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
 
     # Calculate stats based on algorithm results
     print(f'In save_to_file')
-    print(f'y_test =\n {y_test}')
-    print(f'y_pred =\n {y_pred}')
+    print(f'np.bincount(y_test) =\n {np.bincount(y_test)}')
+    print(f'np.bincount(y_pred) =\n {np.bincount(y_pred)}')
     probs = clf.predict_proba(X_test)
     probs = probs[:, 1]  # Only positives
     precision, recall, _ = precision_recall_curve(y_test, probs, pos_label=2)
@@ -126,3 +127,12 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
 
             # Create average meta-statistic for easy comparison (higher is better)
             writer.writerow(["Combo", '{:.4f}'.format(combStat)])
+
+        # Output fpr and tpr
+        with open(outfile_base + '_fpr_tpr.dat', 'w', newline='') as ft_file:
+            fpr, tpr, _ = roc_curve(y_test, probs, pos_label=2)
+            np.savetxt(ft_file, (fpr, tpr), delimiter=',')
+
+        # Output precision and recall
+        with open(outfile_base + '_pr.dat', 'w', newline='') as pr_file:
+            np.savetxt(pr_file, (precision, recall), delimiter=',')
