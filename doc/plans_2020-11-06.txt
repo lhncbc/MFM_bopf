@@ -1,0 +1,31 @@
+ 1.       Run LR, SVM, RF, MLP 
+
+2.       Drop MomICU from the predictor variables
+
+3.       Outcome variable sets:  transf_yes, trans_loss, trans_hyst (drop hysterectomy)
+
+4.       Use only the RANDOM selected dataset, drop all the other cohorts
+
+5.       Produce results with:
+
+a.       ROC-AUC
+
+b.       Recall
+
+c.       Precision
+
+d.       Accuracy
+
+e.       F1 score
+
+f.        Coefficients if available in the algorithm
+
+g.       Table with mean rankings for predictors across all four algorithms: LR, SVM, RF, MLP
+
+6.       Plot or figure to demonstrate items in 4  not sure which one maybe compare the ROC  which would give us a  plot with 4 lines very close together
+
+7.       Look at the option of using an ensemble model
+
+ 
+
+We will meet again one week after Thanksgiving
