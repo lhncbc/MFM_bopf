@@ -7,7 +7,7 @@ import numpy as np
 
 from sklearn.metrics import confusion_matrix, classification_report, roc_auc_score, f1_score, precision_recall_curve, \
     auc, precision_recall_fscore_support, matthews_corrcoef, accuracy_score, balanced_accuracy_score, precision_score, \
-    recall_score, roc_curve
+    recall_score, roc_curve, average_precision_score
 
 
 def create_outfile_base(opts, params_dict=None):
@@ -29,19 +29,23 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
     print(f'In save_to_file')
     print(f'np.bincount(y_test) =\n {np.bincount(y_test)}')
     print(f'np.bincount(y_pred) =\n {np.bincount(y_pred)}')
-    probs = clf.predict_proba(X_test)
-    probs = probs[:, 1]  # Only positives
-    precision, recall, _ = precision_recall_curve(y_test, probs, pos_label=2)
-    pr_auc = auc(recall, precision)
     accuracy_s = accuracy_score(y_test, y_pred)
     bal_accuracy_s = balanced_accuracy_score(y_test, y_pred)
-    precision_s = precision_score(y_test, y_pred) # Average = 'binary' uses only 1's
-    recall_s = recall_score(y_test, y_pred) # Average = 'binary' uses only 1's
+    probs = clf.predict_proba(X_test)
+    prob1 = probs[:, 1]  # Only positives
+    print(f'probs.shape = {probs.shape}')
+    print(f'prob1.shape = {prob1.shape}')
+    print(f'y_test.shape = {y_test.shape}')
+    precision, recall, pr_thresh = precision_recall_curve(y_test, prob1, pos_label=2)
+    pr_auc = auc(recall, precision)
+    avg_precision = average_precision_score(y_test, prob1, pos_label=2)
+    precision_s = precision_score(y_test, y_pred, pos_label=2)
+    recall_s = recall_score(y_test, y_pred, pos_label=2)
     f1_s = f1_score(y_test, y_pred, average=None)
     precm, recm, f1m, suppm = precision_recall_fscore_support(y_test, y_pred, average="macro")
-    fpr, tpr, _ = roc_curve(y_test, probs, pos_label=2)
+    fpr, tpr, thresholds = roc_curve(y_test, prob1, pos_label=2)
     roc_auc = auc(fpr, tpr)
-    roc_auc_s = roc_auc_score(y_test, y_pred)
+    roc_auc_s = roc_auc_score(y_test, prob1)
     mcc = matthews_corrcoef(y_test, y_pred)
     combStat = (precm + recm + f1m + mcc) / 4
 
@@ -63,6 +67,7 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
         print(f'bal_acc = {bal_accuracy_s}', file=outfile)
         print(f'f1_score = {f1_s}', file=outfile)
         print(f'PR_AUC = {pr_auc}', file=outfile)
+        print(f'Avg_precision = {avg_precision}', file=outfile)
         print(f'Combo = {combStat}', file=outfile)
 
         # if opts.pred_alg == 'LR' or opts.pred_alg == 'SVC' or xopts.pred_alg == 'LSVC':
@@ -127,15 +132,26 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
             writer.writerow(["ROC_AUC", '{:.4f}'.format(roc_auc)])
 
             writer.writerow(["PR_AUC", '{:.4f}'.format(pr_auc)])
+            writer.writerow(["avg_precision", '{:.4f}'.format(avg_precision)])
             writer.writerow(["MCC", '{:.4f}'.format(mcc)])
 
             # Create average meta-statistic for easy comparison (higher is better)
             writer.writerow(["Combo", '{:.4f}'.format(combStat)])
 
+        # Output y_test / y_pred
+        with open(outfile_base + '_pred.dat', 'w') as pred_file:
+            np.savetxt(pred_file, (y_test, y_pred), delimiter=',', fmt='%1i')
+
+        # Output predicted probs
+        with open(outfile_base + '_probs.dat', 'w', newline='') as prob_file:
+            np.savetxt(prob_file, probs, delimiter=',')
+
         # Output fpr and tpr
         with open(outfile_base + '_fpr_tpr.dat', 'w', newline='') as ft_file:
-            np.savetxt(ft_file, (fpr, tpr), delimiter=',')
+            np.savetxt(ft_file, (fpr, tpr, thresholds), delimiter=',')
 
         # Output precision and recall
+        if (len(pr_thresh) + 1) == len(precision):   # returned thresholds can be short by 1
+            pr_thresh = np.append(pr_thresh, 1.0)
         with open(outfile_base + '_pr.dat', 'w', newline='') as pr_file:
-            np.savetxt(pr_file, (precision, recall), delimiter=',')
+            np.savetxt(pr_file, (precision, recall, pr_thresh), delimiter=',')
