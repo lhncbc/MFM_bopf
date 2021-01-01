@@ -6,7 +6,8 @@ import math
 import scipy.stats as ss
 from collections import Counter
 
-from imblearn.under_sampling import RandomUnderSampler
+from imblearn.under_sampling import RandomUnderSampler, NearMiss, CondensedNearestNeighbour, \
+                                    ClusterCentroids, InstanceHardnessThreshold
 
 
 def cramers_v(x, y):
@@ -77,9 +78,27 @@ def under_samp(X, y, sampling_strat, target, under_method):
         return X, y
 
     if under_method == 'RAND':
-        print("Random")
-        rand_und = RandomUnderSampler(sampling_strategy=sampling_strat)
-        X_res, y_res = rand_und.fit_resample(X, y)
+        sampler = RandomUnderSampler(sampling_strategy=sampling_strat)
+        X_res, y_res = sampler.fit_resample(X, y)
+    elif under_method == 'CC':
+        sampler = ClusterCentroids(sampling_strategy=sampling_strat)
+        X_res, y_res = sampler.fit_resample(X, y)
+    elif under_method == 'INH':
+        sampler = InstanceHardnessThreshold(sampling_strategy=sampling_strat)
+        X_res, y_res = sampler.fit_resample(X, y)
+    elif under_method == 'NM1':
+        sampler = NearMiss(sampling_strategy=sampling_strat, version=1, n_neighbors=3)
+        X_res, y_res = sampler.fit_resample(X, y)
+    elif under_method == 'NM2':
+        sampler = NearMiss(sampling_strategy=sampling_strat, version=2, n_neighbors=3)
+        X_res, y_res = sampler.fit_resample(X, y)
+    elif under_method == 'NM3':
+        sampler = NearMiss(sampling_strategy=sampling_strat, version=3,
+                           n_neighbors_ver3=3)
+        X_res, y_res = sampler.fit_resample(X, y)
+    elif under_method == 'CNN':
+        sampler = CondensedNearestNeighbour()
+        X_res, y_res = sampler.fit_resample(X, y)
     else:  # Assuming cohort undersampling
         print(f'cohort = {under_method}')
         cohort = under_method
