@@ -69,6 +69,10 @@ def main():
     print(f'type(opts.sample_tts) = {type(opts.sample_tts)}')
     if int(opts.sample_tts) == 1:
         print('sample_tts == 1')
+        #@TODO: refactor this code to use different cross-validation strategies.
+        print('Sampling test data changes the data distribution and results are usually considered INVALID')
+        import warnings
+        warnings.warn("Should never sub-sample test data")
         # No undersampling - NOTE: this combination makes no sense - can't sample tts if NONE
         if opts.under_alg == 'NONE':
             X_res_t, y_res_t = X, y
