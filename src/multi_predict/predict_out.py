@@ -45,7 +45,8 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
     precm, recm, f1m, suppm = precision_recall_fscore_support(y_test, y_pred, average="macro")
     fpr, tpr, thresholds = roc_curve(y_test, prob1, pos_label=2)
     roc_auc = auc(fpr, tpr)
-    roc_auc_s = roc_auc_score(y_test, prob1)
+    roc_auc_prob = roc_auc_score(y_test, prob1)
+    roc_auc_pred = roc_auc_score(y_test, y_pred)
     mcc = matthews_corrcoef(y_test, y_pred)
     combStat = (precm + recm + f1m + mcc) / 4
 
@@ -60,8 +61,9 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
         print(f'\n\nclf.get_params() = {clf.get_params()}\n\n', file=outfile)
         print(confusion_matrix(y_test, y_pred), file=outfile)
         print(f'\nClassification Report:\n {classification_report(y_test, y_pred)}', file=outfile)
-        print(f'ROC_AUC_Score = {roc_auc_s}', file=outfile)
         print(f'ROC_AUC = {roc_auc}', file=outfile)
+        print(f'ROC_AUC_Prob = {roc_auc_prob}', file=outfile)
+        print(f'ROC_AUC_Pred = {roc_auc_pred}', file=outfile)
         print(f'MCC = {mcc}', file=outfile)
         print(f'acc = {accuracy_s}', file=outfile)
         print(f'bal_acc = {bal_accuracy_s}', file=outfile)
@@ -128,8 +130,9 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
             writer.writerow(["recall_macro", '{:.4f}'.format(recm)])
             writer.writerow(["F1_macro", '{:.4f}'.format(f1m)])
 
-            writer.writerow(["ROC_AUC_Score", '{:.4f}'.format(roc_auc_s)])
             writer.writerow(["ROC_AUC", '{:.4f}'.format(roc_auc)])
+            writer.writerow(["ROC_Prob", '{:.4f}'.format(roc_auc_prob)])
+            writer.writerow(["ROC_Pred", '{:.4f}'.format(roc_auc_pred)])
 
             writer.writerow(["PR_AUC", '{:.4f}'.format(pr_auc)])
             writer.writerow(["avg_precision", '{:.4f}'.format(avg_precision)])
