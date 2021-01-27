@@ -7,7 +7,8 @@ import numpy as np
 
 from sklearn.metrics import confusion_matrix, classification_report, roc_auc_score, f1_score, precision_recall_curve, \
     auc, precision_recall_fscore_support, matthews_corrcoef, accuracy_score, balanced_accuracy_score, precision_score, \
-    recall_score, roc_curve, average_precision_score
+    recall_score, roc_curve, average_precision_score, fbeta_score
+from imblearn.metrics import geometric_mean_score, sensitivity_specificity_support
 
 
 def create_outfile_base(opts, params_dict=None):
@@ -42,12 +43,24 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
     precision_s = precision_score(y_test, y_pred, pos_label=2)
     recall_s = recall_score(y_test, y_pred, pos_label=2)
     f1_s = f1_score(y_test, y_pred, average=None)
+    fb1 = fbeta_score(y_test, y_pred, beta=1.0, average=None)
+    fb1_m = fbeta_score(y_test, y_pred, beta=1.0, average='macro')
+    fb2 = fbeta_score(y_test, y_pred, beta=2.0, average=None)
+    fb2_m = fbeta_score(y_test, y_pred, beta=2.0, average='macro')
+    fb05 = fbeta_score(y_test, y_pred, beta=0.5, average=None)
+    fb05_m = fbeta_score(y_test, y_pred, beta=0.5, average='macro')
     precm, recm, f1m, suppm = precision_recall_fscore_support(y_test, y_pred, average="macro")
     fpr, tpr, thresholds = roc_curve(y_test, prob1, pos_label=2)
     roc_auc = auc(fpr, tpr)
     roc_auc_prob = roc_auc_score(y_test, prob1)
     roc_auc_pred = roc_auc_score(y_test, y_pred)
     mcc = matthews_corrcoef(y_test, y_pred)
+    gmeans = np.sqrt(tpr * (1 - fpr))
+    g_ix = np.argmax(gmeans)
+    gmean = geometric_mean_score(y_test, y_pred, average=None)
+    gmean_ma = geometric_mean_score(y_test, y_pred, average='macro')
+    sens, spec, ss_supp = sensitivity_specificity_support(y_test, y_pred, average=None)
+    sens_m, spec_m, ss_supp_m = sensitivity_specificity_support(y_test, y_pred, average='macro')
     combStat = (precm + recm + f1m + mcc) / 4
 
     clf_min = (time.time() - clf_start) / 60
@@ -71,6 +84,13 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
         print(f'PR_AUC = {pr_auc}', file=outfile)
         print(f'Avg_precision = {avg_precision}', file=outfile)
         print(f'Combo = {combStat}', file=outfile)
+        print(f'fb1 = {fb1}; fb1_macro = {fb1_m}', file=outfile)
+        print(f'fb2 = {fb2}; fb2_macro = {fb2_m}', file=outfile)
+        print(f'fb05 = {fb05}; fb2_macro = {fb05_m}', file=outfile)
+        print(f'max_gmean = {gmeans[g_ix]}; max_thresh = {thresholds[g_ix]}', file=outfile)
+        print(f'gmean = {gmean}; gmean_macro = {gmean_ma}', file=outfile)
+        print(f'sens = {sens}; sens_macro = {sens_m}', file=outfile)
+        print(f'spec = {spec}; spec_macro = {spec_m}', file=outfile)
 
         # if opts.pred_alg == 'LR' or opts.pred_alg == 'SVC' or xopts.pred_alg == 'LSVC':
         if hasattr(clf, 'coef_') or hasattr(clf, 'coefs_') or hasattr(clf, 'feature_importances_'):
@@ -140,6 +160,32 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
 
             # Create average meta-statistic for easy comparison (higher is better)
             writer.writerow(["Combo", '{:.4f}'.format(combStat)])
+
+            # F-beta values
+            writer.writerow(["Fb1_1", '{:.4f}'.format(fb1[0])])
+            writer.writerow(["Fb1_2", '{:.4f}'.format(fb1[1])])
+            writer.writerow(["Fb1_m", '{:.4f}'.format(fb1_m)])
+            writer.writerow(["Fb2_1", '{:.4f}'.format(fb2[0])])
+            writer.writerow(["Fb2_2", '{:.4f}'.format(fb2[1])])
+            writer.writerow(["Fb2_m", '{:.4f}'.format(fb2_m)])
+            writer.writerow(["Fb05_1", '{:.4f}'.format(fb05[0])])
+            writer.writerow(["Fb05_2", '{:.4f}'.format(fb05[1])])
+            writer.writerow(["Fb05_m", '{:.4f}'.format(fb05_m)])
+
+            # Gmeans
+            writer.writerow(["Gmean_1", '{:.4f}'.format(gmean[0])])
+            writer.writerow(["Gmean_2", '{:.4f}'.format(gmean[1])])
+            writer.writerow(["Gmean_ma", '{:.4f}'.format(gmean_ma)])
+            writer.writerow(["Max Gmean", '{:.4f}'.format(gmeans[g_ix])])
+            writer.writerow(["Max Thresh", '{:.4f}'.format(thresholds[g_ix])])
+
+            # Sensitivity / Specificity
+            writer.writerow(["Sens_1", '{:.4f}'.format(sens[0])])
+            writer.writerow(["Sens_2", '{:.4f}'.format(sens[1])])
+            writer.writerow(["Sens_ma", '{:.4f}'.format(sens_m)])
+            writer.writerow(["Spec_1", '{:.4f}'.format(spec[0])])
+            writer.writerow(["Spec_2", '{:.4f}'.format(spec[1])])
+            writer.writerow(["Spec_ma", '{:.4f}'.format(spec_m)])
 
         # Output y_test / y_pred
         with open(outfile_base + '_pred.dat', 'w') as pred_file:
