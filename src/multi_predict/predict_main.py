@@ -39,9 +39,23 @@ def parse_args():
     parser.add_argument('--nproc', default=1, help='Number of proccesses to run')
     parser.add_argument('--sample_tts', default=0,
                         help='Sample both the test and train data; if not set, only sample training data')
+    parser.add_argument('--feature_thresh', default=1.0,
+                        help='How many of the corr_var_file variables used as features; [0.0, 1.0] is percentage; int > 1 is count')
 
     args = parser.parse_args()
     return args
+
+
+# Given a filename containing sorted Cramer correlations and a threshold, return list of features
+def get_feature_list(filename, feature_thresh):
+    corr_var_df = pd.read_csv(filename, header=None, index_col=0, names=['Variable', 'corr'])
+    corr_var_list = corr_var_df.index.to_list()
+    if feature_thresh > 1:  # Assuming integer count
+        thresh = min(feature_thresh, len(corr_var_list))
+    else:  # Assuming float percentage
+        thresh = int(feature_thresh * len(corr_var_list))
+
+    return corr_var_list[:thresh]
 
 
 def main():
@@ -53,7 +67,10 @@ def main():
     y = df[opts.target].values
 
     # Read list of Correlated variable names. No errors produced if the names don't match anything.
-    corrVars = pd.read_csv(opts.corr_var_file, header=None)[0].to_list()
+    #corrVars = pd.read_csv(opts.corr_var_file, header=None)[0].to_list()
+
+    # Get list of highly correlated variables (features) limited by the threshold
+    corrVars = get_feature_list(opts.corr_var_file, float(opts.feature_thresh))
     if opts.under_alg not in corrVars:
         if opts.under_alg != 'NONE' and opts.under_alg != 'RAND':
             corrVars.append(opts.under_alg)
