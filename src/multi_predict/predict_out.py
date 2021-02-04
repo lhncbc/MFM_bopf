@@ -9,6 +9,7 @@ from sklearn.metrics import confusion_matrix, classification_report, roc_auc_sco
     auc, precision_recall_fscore_support, matthews_corrcoef, accuracy_score, balanced_accuracy_score, precision_score, \
     recall_score, roc_curve, average_precision_score, fbeta_score
 from imblearn.metrics import geometric_mean_score, sensitivity_specificity_support
+from sklearn.dummy import DummyClassifier
 
 
 def create_outfile_base(opts, params_dict=None):
@@ -22,6 +23,17 @@ def create_outfile_base(opts, params_dict=None):
         fname = "-".join([opts.target, opts.sample_tts, opts.under_alg, opts.pred_alg, str(opts.seed), timestamp])
     fname = fname.replace(" ", "")
     return opts.output_dir + '/' + fname
+
+# Calculate a floor for PR_AUC by using a DummyClassifier.
+# NOTE: this calculation doesn't produce valid results for undersampled data
+def calc_no_skill(X_train, y_train, X_test, y_test):
+    dummy = DummyClassifier(strategy='stratified')
+    dummy.fit(X_train, y_train)
+    dProbs = dummy.predict_proba(X_test)
+    naive_probs = dProbs[:, 1]
+    naive_prec, naive_rec, n_thresh = precision_recall_curve(y_test, naive_probs, pos_label=2)
+    naive_auc = auc(naive_rec, naive_prec)
+    return naive_auc
 
 
 def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts, params_dict):
@@ -39,6 +51,8 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
     print(f'y_test.shape = {y_test.shape}')
     precision, recall, pr_thresh = precision_recall_curve(y_test, prob1, pos_label=2)
     pr_auc = auc(recall, precision)
+    # Naive AUC calc doesn't produce valid results for undersampled data
+    # naive_auc = calc_no_skill(X_train, y_train, X_test, y_test)
     avg_precision = average_precision_score(y_test, prob1, pos_label=2)
     precision_s = precision_score(y_test, y_pred, pos_label=2)
     recall_s = recall_score(y_test, y_pred, pos_label=2)
@@ -82,6 +96,7 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
         print(f'bal_acc = {bal_accuracy_s}', file=outfile)
         print(f'f1_score = {f1_s}', file=outfile)
         print(f'PR_AUC = {pr_auc}', file=outfile)
+        #print(f'Naive_AUC = {naive_auc}', file=outfile)
         print(f'Avg_precision = {avg_precision}', file=outfile)
         print(f'Combo = {combStat}', file=outfile)
         print(f'fb1 = {fb1}; fb1_macro = {fb1_m}', file=outfile)
@@ -156,6 +171,7 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
 
             writer.writerow(["PR_AUC", '{:.4f}'.format(pr_auc)])
             writer.writerow(["avg_precision", '{:.4f}'.format(avg_precision)])
+            #writer.writerow(["naive_auc", '{:.4f}'.format(naive_auc)])
             writer.writerow(["MCC", '{:.4f}'.format(mcc)])
 
             # Create average meta-statistic for easy comparison (higher is better)
