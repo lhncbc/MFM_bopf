@@ -20,4 +20,4 @@ if [[ $SLURM_EXPORT_ENV != *"output_dir"* ]];then
     output_dir=./output
 fi
 
-time python ../predict_main.py --target $target --infile $infile --under_alg $under_alg --pred_alg $pred_alg --corr_var_file $corr_var_file --pred_params $pred_params --samp_strat $samp_strat --corr_var_file $corr_var_file --nproc $nproc --seed $seed --sample_tts $sample_tts --feature_thresh feature_thresh --output_dir $output_dir
+time python ../predict_main.py --target $target --infile $infile --under_alg $under_alg --pred_alg $pred_alg --corr_var_file $corr_var_file --pred_params $pred_params --samp_strat $samp_strat --corr_var_file $corr_var_file --nproc $nproc --seed $seed --sample_tts $sample_tts --feature_thresh $feature_thresh --output_dir $output_dir
