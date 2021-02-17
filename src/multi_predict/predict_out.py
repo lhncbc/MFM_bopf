@@ -146,10 +146,15 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
                     writer.writerow(["p_" + key, value])
 
             tn, fp, fn, tp = confusion_matrix(y_test, y_pred).ravel()
+            ntn, nfp, nfn, ntp = confusion_matrix(y_test, y_pred, normalize='all').ravel()
             writer.writerow(["TN", tn])
             writer.writerow(["FP", fp])
             writer.writerow(["FN", fn])
             writer.writerow(["TP", tp])
+            writer.writerow(["NTN", ntn])
+            writer.writerow(["NFP", nfp])
+            writer.writerow(["NFN", nfn])
+            writer.writerow(["NTP", ntp])
 
             prec, rec, f1, supp = precision_recall_fscore_support(y_test, y_pred, average=None)
             writer.writerow(["acc", '{:.4f}'.format(accuracy_s)])
