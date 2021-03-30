@@ -1,89 +1,34 @@
 **************
 * transfus_yes
 **************
-sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-07.csv',seed=1,under='Hostype',corrAlg='Theil',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-07.csv',seed=1,under='Hostype',corrAlg='Cramer',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-
-sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-07.csv',seed=1,under='high_Age',corrAlg='Theil',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-07.csv',seed=1,under='high_Age',corrAlg='Cramer',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-
-sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-07.csv',seed=1,under='momrace_new',corrAlg='Theil',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-07.csv',seed=1,under='momrace_new',corrAlg='Cramer',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-
-sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-07.csv',seed=1,under='Insurance',corrAlg='Theil',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-07.csv',seed=1,under='Insurance',corrAlg='Cramer',runs=10,nprocs=10,ALL multiCorrTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_ty_PI.csv',seed=1,under='RAND',corrAlg='Theil',runs=10,nprocs=10,ALL multiCorrTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_ty_PI.csv',seed=1,under='RAND',corrAlg='Cramer',runs=10,nprocs=10,ALL multiCorrTmplt.sh
 
 *************
-* trans_loss
+* trans_loss 
 *************
-
-sbatch --export=target='trans_loss',infile='../../data/csl/CSL_d5_trans_loss_2020-07.csv',seed=1,under='Hostype',corrAlg='Theil',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-sbatch --export=target='trans_loss',infile='../../data/csl/CSL_d5_trans_loss_2020-07.csv',seed=1,under='Hostype',corrAlg='Cramer',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-
-sbatch --export=target='trans_loss',infile='../../data/csl/CSL_d5_trans_loss_2020-07.csv',seed=1,under='high_Age',corrAlg='Theil',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-sbatch --export=target='trans_loss',infile='../../data/csl/CSL_d5_trans_loss_2020-07.csv',seed=1,under='high_Age',corrAlg='Cramer',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-
-sbatch --export=target='trans_loss',infile='../../data/csl/CSL_d5_trans_loss_2020-07.csv',seed=1,under='momrace_new',corrAlg='Theil',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-sbatch --export=target='trans_loss',infile='../../data/csl/CSL_d5_trans_loss_2020-07.csv',seed=1,under='momrace_new',corrAlg='Cramer',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-
-sbatch --export=target='trans_loss',infile='../../data/csl/CSL_d5_trans_loss_2020-07.csv',seed=1,under='Insurance',corrAlg='Theil',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-sbatch --export=target='trans_loss',infile='../../data/csl/CSL_d5_trans_loss_2020-07.csv',seed=1,under='Insurance',corrAlg='Cramer',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-
-
-**************
-* transfus_all
-**************
-sbatch --export=target='transfus_all',infile='../../data/csl/CSL_d5_transfus_all_2020-07.csv',seed=1,under='Hostype',corrAlg='Theil',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-sbatch --export=target='transfus_all',infile='../../data/csl/CSL_d5_transfus_all_2020-07.csv',seed=1,under='Hostype',corrAlg='Cramer',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-
-sbatch --export=target='transfus_all',infile='../../data/csl/CSL_d5_transfus_all_2020-07.csv',seed=1,under='high_Age',corrAlg='Theil',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-sbatch --export=target='transfus_all',infile='../../data/csl/CSL_d5_transfus_all_2020-07.csv',seed=1,under='high_Age',corrAlg='Cramer',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-
-sbatch --export=target='transfus_all',infile='../../data/csl/CSL_d5_transfus_all_2020-07.csv',seed=1,under='momrace_new',corrAlg='Theil',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-sbatch --export=target='transfus_all',infile='../../data/csl/CSL_d5_transfus_all_2020-07.csv',seed=1,under='momrace_new',corrAlg='Cramer',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-
-sbatch --export=target='transfus_all',infile='../../data/csl/CSL_d5_transfus_all_2020-07.csv',seed=1,under='Insurance',corrAlg='Theil',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-sbatch --export=target='transfus_all',infile='../../data/csl/CSL_d5_transfus_all_2020-07.csv',seed=1,under='Insurance',corrAlg='Cramer',runs=10,nprocs=10,ALL multiCorrTmplt.sh
+sbatch --export=target='trans_loss',infile='../../data/csl/CSL_tl_PI.csv',seed=1,under='RAND',corrAlg='Theil',runs=10,nprocs=10,ALL multiCorrTmplt.sh
+sbatch --export=target='trans_loss',infile='../../data/csl/CSL_tl_PI.csv',seed=1,under='RAND',corrAlg='Cramer',runs=10,nprocs=10,ALL multiCorrTmplt.sh
 
 ******************
 * No undersampling - no need to do multiple runs
 ******************
-sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-07.csv',seed=1,under='NONE',corrAlg='Theil',runs=1,nprocs=1,ALL multiCorrTmplt.sh
-sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-07.csv',seed=1,under='NONE',corrAlg='Cramer',runs=1,nprocs=1,ALL multiCorrTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_ty_PI.csv',seed=1,under='NONE',corrAlg='Theil',runs=1,nprocs=1,ALL multiCorrTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_ty_PI.csv',seed=1,under='NONE',corrAlg='Cramer',runs=1,nprocs=1,ALL multiCorrTmplt.sh
 
-sbatch --export=target='trans_loss',infile='../../data/csl/CSL_d5_trans_loss_2020-07.csv',seed=1,under='NONE',corrAlg='Theil',runs=1,nprocs=1,ALL multiCorrTmplt.sh
-sbatch --export=target='trans_loss',infile='../../data/csl/CSL_d5_trans_loss_2020-07.csv',seed=1,under='NONE',corrAlg='Cramer',runs=1,nprocs=1,ALL multiCorrTmplt.sh
+sbatch --export=target='trans_loss',infile='../../data/csl/CSL_tl_PI.csv',seed=1,under='NONE',corrAlg='Theil',runs=1,nprocs=1,ALL multiCorrTmplt.sh
+sbatch --export=target='trans_loss',infile='../../data/csl/CSL_tl_PI.csv',seed=1,under='NONE',corrAlg='Cramer',runs=1,nprocs=1,ALL multiCorrTmplt.sh
 
-sbatch --export=target='transfus_all',infile='../../data/csl/CSL_d5_transfus_all_2020-07.csv',seed=1,under='NONE',corrAlg='Theil',runs=1,nprocs=1,ALL multiCorrTmplt.sh
-sbatch --export=target='transfus_all',infile='../../data/csl/CSL_d5_transfus_all_2020-07.csv',seed=1,under='NONE',corrAlg='Cramer',runs=1,nprocs=1,ALL multiCorrTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_ty_Pre.csv',seed=1,under='NONE',corrAlg='Theil',runs=1,nprocs=1,ALL multiCorrTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_ty_Pre.csv',seed=1,under='NONE',corrAlg='Cramer',runs=1,nprocs=1,ALL multiCorrTmplt.sh
 
-**********************
-* Random undersampling 
-**********************
-sbatch --export=target='transfus_all',infile='../../data/csl/CSL_d5_transfus_all_2020-07.csv',seed=1,under='RAND',corrAlg='Theil',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-sbatch --export=target='transfus_all',infile='../../data/csl/CSL_d5_transfus_all_2020-07.csv',seed=1,under='RAND',corrAlg='Cramer',runs=10,nprocs=10,ALL multiCorrTmplt.sh
+sbatch --export=target='trans_loss',infile='../../data/csl/CSL_tl_Pre.csv',seed=1,under='NONE',corrAlg='Theil',runs=1,nprocs=1,ALL multiCorrTmplt.sh
+sbatch --export=target='trans_loss',infile='../../data/csl/CSL_tl_Pre.csv',seed=1,under='NONE',corrAlg='Cramer',runs=1,nprocs=1,ALL multiCorrTmplt.sh
 
-sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-07.csv',seed=1,under='RAND',corrAlg='Theil',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-07.csv',seed=1,under='RAND',corrAlg='Cramer',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-
-sbatch --export=target='trans_loss',infile='../../data/csl/CSL_d5_trans_loss_2020-07.csv',seed=1,under='RAND',corrAlg='Theil',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-sbatch --export=target='trans_loss',infile='../../data/csl/CSL_d5_trans_loss_2020-07.csv',seed=1,under='RAND',corrAlg='Cramer',runs=10,nprocs=10,ALL multiCorrTmplt.sh
 
 **************
-* transfus_yes - sampling_strat = 0.25
+* transfus_yes - sampling_strat = 0.25 --- Did NOT run: no need since we did NONE above
 **************
-sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-07.csv',seed=1,under='Hostype',sampling_strat=0.25,corrAlg='Theil',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-07.csv',seed=1,under='Hostype',sampling_strat=0.25,corrAlg='Cramer',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-
-sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-07.csv',seed=1,under='high_Age',sampling_strat=0.25,corrAlg='Theil',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-07.csv',seed=1,under='high_Age',sampling_strat=0.25,corrAlg='Cramer',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-
-sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-07.csv',seed=1,under='momrace_new',sampling_strat=0.25,corrAlg='Theil',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-07.csv',seed=1,under='momrace_new',sampling_strat=0.25,corrAlg='Cramer',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-
-sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-07.csv',seed=1,under='Insurance',sampling_strat=0.25,corrAlg='Theil',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-07.csv',seed=1,under='Insurance',sampling_strat=0.25,corrAlg='Cramer',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-
-sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-07.csv',seed=1,under='RAND',sampling_strat=0.25,corrAlg='Theil',runs=10,nprocs=10,ALL multiCorrTmplt.sh
-sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_d5_transfus_yes_2020-07.csv',seed=1,under='RAND',sampling_strat=0.25,corrAlg='Cramer',runs=10,nprocs=10,ALL multiCorrTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_ty_PI.csv',seed=1,under='RAND',sampling_strat=0.25,corrAlg='Theil',runs=10,nprocs=10,ALL multiCorrTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_ty_PI.csv',seed=1,under='RAND',sampling_strat=0.25,corrAlg='Cramer',runs=10,nprocs=10,ALL multiCorrTmplt.sh
 
