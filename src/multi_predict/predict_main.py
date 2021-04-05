@@ -23,6 +23,7 @@ from stat_mwb import under_samp
 def parse_args():
     parser = argparse.ArgumentParser(description='MFM prediction script')
     parser.add_argument('--target', required=True, help='Target y variable in dataset')
+    parser.add_argument('--period', default='Other', help='Delivery period (Pre, PI, Other)')
     parser.add_argument('--infile', required=True, help='Full path of input datafile')
     parser.add_argument('--under_alg', default="RAND", help='"RAND" | <cohort varname>')
     parser.add_argument('--pred_alg', default="NB",
