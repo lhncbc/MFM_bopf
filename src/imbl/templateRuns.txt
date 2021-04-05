@@ -4,14 +4,20 @@
 sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_ty_PI.csv',seed=1,under='RAND',corrAlg='Theil',runs=10,nprocs=10,ALL multiCorrTmplt.sh
 sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_ty_PI.csv',seed=1,under='RAND',corrAlg='Cramer',runs=10,nprocs=10,ALL multiCorrTmplt.sh
 
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_ty_Pre.csv',seed=1,under='RAND',corrAlg='Theil',runs=10,nprocs=10,ALL multiCorrTmplt.sh
+sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_ty_Pre.csv',seed=1,under='RAND',corrAlg='Cramer',runs=10,nprocs=10,ALL multiCorrTmplt.sh
+
 *************
 * trans_loss 
 *************
 sbatch --export=target='trans_loss',infile='../../data/csl/CSL_tl_PI.csv',seed=1,under='RAND',corrAlg='Theil',runs=10,nprocs=10,ALL multiCorrTmplt.sh
 sbatch --export=target='trans_loss',infile='../../data/csl/CSL_tl_PI.csv',seed=1,under='RAND',corrAlg='Cramer',runs=10,nprocs=10,ALL multiCorrTmplt.sh
 
+sbatch --export=target='trans_loss',infile='../../data/csl/CSL_tl_Pre.csv',seed=1,under='RAND',corrAlg='Theil',runs=10,nprocs=10,ALL multiCorrTmplt.sh
+sbatch --export=target='trans_loss',infile='../../data/csl/CSL_tl_Pre.csv',seed=1,under='RAND',corrAlg='Cramer',runs=10,nprocs=10,ALL multiCorrTmplt.sh
+
 ******************
-* No undersampling - no need to do multiple runs
+* No undersampling - no need to do multiple runs; probably not representative of our imbalanced data
 ******************
 sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_ty_PI.csv',seed=1,under='NONE',corrAlg='Theil',runs=1,nprocs=1,ALL multiCorrTmplt.sh
 sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_ty_PI.csv',seed=1,under='NONE',corrAlg='Cramer',runs=1,nprocs=1,ALL multiCorrTmplt.sh
@@ -19,6 +25,9 @@ sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_ty_PI.csv',seed
 sbatch --export=target='trans_loss',infile='../../data/csl/CSL_tl_PI.csv',seed=1,under='NONE',corrAlg='Theil',runs=1,nprocs=1,ALL multiCorrTmplt.sh
 sbatch --export=target='trans_loss',infile='../../data/csl/CSL_tl_PI.csv',seed=1,under='NONE',corrAlg='Cramer',runs=1,nprocs=1,ALL multiCorrTmplt.sh
 
+********************
+* Probably not necessary to do Pre as they are a subset of PI
+********************
 sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_ty_Pre.csv',seed=1,under='NONE',corrAlg='Theil',runs=1,nprocs=1,ALL multiCorrTmplt.sh
 sbatch --export=target='transfus_yes',infile='../../data/csl/CSL_ty_Pre.csv',seed=1,under='NONE',corrAlg='Cramer',runs=1,nprocs=1,ALL multiCorrTmplt.sh
 
