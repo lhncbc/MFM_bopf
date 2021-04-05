@@ -31,7 +31,7 @@ def calc_no_skill(X_train, y_train, X_test, y_test):
     dummy.fit(X_train, y_train)
     dProbs = dummy.predict_proba(X_test)
     naive_probs = dProbs[:, 1]
-    naive_prec, naive_rec, n_thresh = precision_recall_curve(y_test, naive_probs, pos_label=2)
+    naive_prec, naive_rec, n_thresh = precision_recall_curve(y_test, naive_probs)
     naive_auc = auc(naive_rec, naive_prec)
     return naive_auc
 
@@ -49,13 +49,13 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
     print(f'probs.shape = {probs.shape}')
     print(f'prob1.shape = {prob1.shape}')
     print(f'y_test.shape = {y_test.shape}')
-    precision, recall, pr_thresh = precision_recall_curve(y_test, prob1, pos_label=2)
+    precision, recall, pr_thresh = precision_recall_curve(y_test, prob1)
     pr_auc = auc(recall, precision)
     # Naive AUC calc doesn't produce valid results for undersampled data
     # naive_auc = calc_no_skill(X_train, y_train, X_test, y_test)
-    avg_precision = average_precision_score(y_test, prob1, pos_label=2)
-    precision_s = precision_score(y_test, y_pred, pos_label=2)
-    recall_s = recall_score(y_test, y_pred, pos_label=2)
+    avg_precision = average_precision_score(y_test, prob1)
+    precision_s = precision_score(y_test, y_pred)
+    recall_s = recall_score(y_test, y_pred)
     f1_s = f1_score(y_test, y_pred, average=None)
     fb1 = fbeta_score(y_test, y_pred, beta=1.0, average=None)
     fb1_m = fbeta_score(y_test, y_pred, beta=1.0, average='macro')
@@ -64,7 +64,7 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
     fb05 = fbeta_score(y_test, y_pred, beta=0.5, average=None)
     fb05_m = fbeta_score(y_test, y_pred, beta=0.5, average='macro')
     precm, recm, f1m, suppm = precision_recall_fscore_support(y_test, y_pred, average="macro")
-    fpr, tpr, thresholds = roc_curve(y_test, prob1, pos_label=2)
+    fpr, tpr, thresholds = roc_curve(y_test, prob1)
     roc_auc = auc(fpr, tpr)
     roc_auc_prob = roc_auc_score(y_test, prob1)
     roc_auc_pred = roc_auc_score(y_test, y_pred)

@@ -48,12 +48,14 @@ def parse_args():
 
 # Given a filename containing sorted Cramer correlations and a threshold, return list of features
 def get_feature_list(filename, feature_thresh):
-    corr_var_df = pd.read_csv(filename, header=None, index_col=0, names=['Variable', 'corr'])
+    corr_var_df = pd.read_csv(filename, header=None, sep='\t', index_col=0, names=['Variable', 'corr'])
     corr_var_list = corr_var_df.index.to_list()
     if feature_thresh > 1:  # Assuming integer count
         thresh = min(feature_thresh, len(corr_var_list))
     else:  # Assuming float percentage
         thresh = int(feature_thresh * len(corr_var_list))
+        print(f'len(cor_var_list = {len(corr_var_list)}')
+        print(f'thresh = {thresh}')
 
     return corr_var_list[:thresh]
 
@@ -66,6 +68,8 @@ def main():
     X = df.drop(opts.target, axis=1, inplace=False)
     y = df[opts.target].values
 
+    print(f'\nIn main(): X.shape = {X.shape}; y.shape = {y.shape}\n')
+
     # Read list of Correlated variable names. No errors produced if the names don't match anything.
     #corrVars = pd.read_csv(opts.corr_var_file, header=None)[0].to_list()
 
@@ -74,16 +78,15 @@ def main():
     if opts.under_alg not in corrVars:
         if opts.under_alg != 'NONE' and opts.under_alg != 'RAND':
             corrVars.append(opts.under_alg)
-            print(f'corrVars = {corrVars}')
+
+    print(f'\nIn main()2: X.shape = {X.shape}; y.shape = {y.shape}\n')
 
     X = X.loc[:, X.columns.intersection(corrVars)]
-    print(f'X.columns = {X.columns}')
 
     if opts.seed:
         np.random.seed(int(opts.seed))
 
     # Create stratifed train_test split before under-sampling if opts.sample_tts is set
-    print(f'type(opts.sample_tts) = {type(opts.sample_tts)}')
     if int(opts.sample_tts) == 1:
         print('sample_tts == 1')
         #@TODO: refactor this code to use different cross-validation strategies.
