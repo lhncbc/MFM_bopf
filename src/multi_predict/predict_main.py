@@ -31,6 +31,9 @@ def parse_args():
     parser.add_argument('--pred_params', default=None,
                         help='String-based Dictionary of algorithm-specific tuning parameters')
     parser.add_argument('--seed', default=0, help='Initial random seed')
+    # Following two params are a bit redundant
+    # @todo - Create cor_var_file name based on feat, period, and target
+    parser.add_argument('--feats', default='ALL', help='Feature file used(ALL, top50, Union50)')
     parser.add_argument('--corr_var_file', required=True,
                         help='Path of file containing list of highly-correlated variable names')
     parser.add_argument('--output_dir', default=None,
@@ -48,6 +51,7 @@ def parse_args():
 
 
 # Given a filename containing sorted Cramer correlations and a threshold, return list of features
+# @todo - Reconsider how this might interact with the "feature_file" param. (ie, do Union50 & feature_thresh conflict?)
 def get_feature_list(filename, feature_thresh):
     corr_var_df = pd.read_csv(filename, header=None, sep='\t', index_col=0, names=['Variable', 'corr'])
     corr_var_list = corr_var_df.index.to_list()

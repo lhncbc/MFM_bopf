@@ -18,10 +18,10 @@ def create_outfile_base(opts, params_dict=None):
     timestamp = str(now.strftime("%Y%m%d_%H%M%S"))
     if params_dict:
         param_str = "_".join([x if isinstance(x, str) else str(x) for x in params_dict.values()])
-        fname = "-".join([opts.target, opts.period, opts.under_alg, opts.pred_alg, param_str,\
+        fname = "-".join([opts.target, opts.period, opts.feats, opts.under_alg, opts.pred_alg, param_str,\
                           str(opts.seed), str(opts.samp_strat), timestamp])
     else:
-        fname = "-".join([opts.target, opts.period, opts.under_alg, opts.pred_alg, str(opts.seed), timestamp])
+        fname = "-".join([opts.target, opts.period, opts.feats, opts.under_alg, opts.pred_alg, str(opts.seed), timestamp])
     fname = fname.replace(" ", "")
     return opts.output_dir + '/' + fname
 
@@ -139,7 +139,7 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
             writer = csv.writer(csvfile, lineterminator="\n")
             writer.writerow(["CLF_time(min)", '{:.3f}'.format(clf_min)])
             for arg in vars(opts):
-                if arg in ["target", "period", "sample_tts", "under_alg", "pred_alg", "seed", "samp_strat"]:
+                if arg in ["target", "period", "feats", "sample_tts", "under_alg", "pred_alg", "seed", "samp_strat"]:
                     writer.writerow([arg, getattr(opts, arg)])
 
             if opts.pred_params:
