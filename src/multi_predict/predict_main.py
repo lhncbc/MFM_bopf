@@ -56,12 +56,12 @@ def get_feature_list(filename, feature_thresh):
     corr_var_df = pd.read_csv(filename, header=None, sep='\t', index_col=0, names=['Variable', 'corr'])
     corr_var_list = corr_var_df.index.to_list()
     if feature_thresh > 1:  # Assuming integer count
-        thresh = min(feature_thresh, len(corr_var_list))
+        thresh = int(min(feature_thresh, len(corr_var_list)))
     else:  # Assuming float percentage
         thresh = int(feature_thresh * len(corr_var_list))
-        print(f'len(cor_var_list = {len(corr_var_list)}')
-        print(f'thresh = {thresh}')
 
+    print(f'len(cor_var_list = {len(corr_var_list)}')
+    print(f'thresh = {thresh}')
     return corr_var_list[:thresh]
 
 
