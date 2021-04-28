@@ -71,12 +71,15 @@ def theils_u_df(df) -> pd.DataFrame:
     return udf
 
 
+# @todo - move this routine into separate module
 def under_samp(X, y, sampling_strat, target, under_method):
     print(f'under_method = {under_method}')
+    print(f'target = {target}')
     # Shouldn't depend on this check as it isn't "undersampling"
     if under_method == 'NONE':
         return X, y
 
+    print(f'\nIn under_samp(): X.shape = {X.shape}; y.shape = {y.shape}\n')
     if under_method == 'RAND':
         sampler = RandomUnderSampler(sampling_strategy=sampling_strat)
         X_res, y_res = sampler.fit_resample(X, y)
