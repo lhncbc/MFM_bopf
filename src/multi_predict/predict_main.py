@@ -133,6 +133,11 @@ def clf_predict(params, X_train, y_train, X_test, y_test, opts):
     try:
         print(f'In clf_predict')
         print(f'params= {params}')
+        # Convert any "None" value strings into the Python None value
+        for k,v in params.items():
+            if v == "None":
+                params[k] = None
+
         clf = None
         if opts.pred_alg == 'NB':
             clf = GaussianNB(**params)
