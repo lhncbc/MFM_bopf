@@ -17,7 +17,7 @@ from keras.layers.merge import concatenate
 from keras.metrics import AUC
 
 from save_model import output_files
-from stat_mwb import under_samp
+#from stat_mwb import under_samp
 
 
 def parse_args():
