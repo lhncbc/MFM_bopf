@@ -49,22 +49,34 @@ def parse_args():
     return args
 
 
+# Given a filename containing sorted Cramer correlations and a threshold, return list of features
+def get_feature_list(filename, feature_thresh):
+    corr_var_df = pd.read_csv(filename, header=None, sep='\t', index_col=0, names=['Variable', 'corr'])
+    corr_var_list = corr_var_df.index.to_list()
+    if feature_thresh > 1:  # Assuming integer count
+        thresh = int(min(feature_thresh, len(corr_var_list)))
+    else:  # Assuming float percentage
+        thresh = int(feature_thresh * len(corr_var_list))
+
+    print(f'len(cor_var_list = {len(corr_var_list)}')
+    print(f'thresh = {thresh}')
+    return corr_var_list[:thresh]
+
+
 # load the dataset
-def load_dataset(filename, cramer_coef, target, var_count, row_count):
+def load_dataset(filename, cramer_coef, target, feature_thresh, row_count=None):
     # load the dataset as a pandas DataFrame
-    df = pd.read_csv(filename, header=0, index_col=0, nrows=row_count)
+    if row_count:
+        df = pd.read_csv(filename, header=0, index_col=0, nrows=row_count)
+    else:
+        df = pd.read_csv(filename, header=0, index_col=0)
 
     # split into input (X) and output (y) variables
     X = df.drop(target, axis=1, inplace=False)
 
     # order columns by Cramer coeffs
-    cramer_df = pd.read_csv(cramer_coef, sep='\t', header=None)
-    cols = cramer_df.iloc[:, 0].tolist()
+    cols = get_feature_list(cramer_coef, feature_thresh)
     X = X[cols]
-
-    # Reduce # of variables
-    if var_count < X.shape[1]:
-        X = X.iloc[:, 0:var_count]
 
     y = df[target]
 
@@ -81,32 +93,15 @@ def encode_df(df):
     return df_enc
 
 
-# Given a filename containing sorted Cramer correlations and a threshold, return list of features
-# @todo - Reconsider how this might interact with the "feature_file" param. (ie, do Union50 & feature_thresh conflict?)
-# *** NOTE - Not currently used *** @todo - REMOVE??
-def get_feature_list(filename, feature_thresh):
-    corr_var_df = pd.read_csv(filename, header=None, sep='\t', index_col=0, names=['Variable', 'corr'])
-    corr_var_list = corr_var_df.index.to_list()
-    if feature_thresh > 1:  # Assuming integer count
-        thresh = int(min(feature_thresh, len(corr_var_list)))
-    else:  # Assuming float percentage
-        thresh = int(feature_thresh * len(corr_var_list))
-
-    print(f'len(cor_var_list = {len(corr_var_list)}')
-    print(f'thresh = {thresh}')
-    return corr_var_list[:thresh]
-
-
 def main():
     opts = parse_args()
     print(f'opts = {opts}')
     BATCH_SIZE = int(opts.batchsize)
     EPOCHS = int(opts.epochs)
+    feature_thr = int(opts.feature_thresh)
 
     # It is assumed that the input datafile already has collinear variables removed
-    X, y = load_dataset('../../../data/csl/CSL_tl_PI_binned.csv',
-                        '../../../data/csl/CramerTheil/Cramer_PI_Tl_vars_Union50.csv',
-                        'trans_loss', 200, 200000)
+    X, y = load_dataset(opts.infile, opts.corr_var_file, opts.target, feature_thr)
 
     print(f'\nIn main(): X.shape = {X.shape}; y.shape = {y.shape}\n')
     print(f'y.value_counts = {y.value_counts().values}')
