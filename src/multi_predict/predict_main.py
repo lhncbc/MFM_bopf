@@ -76,6 +76,8 @@ def calc_sample_weights(y_train):
     from sklearn.utils import class_weight
     weights = class_weight.compute_sample_weight(class_weight="balanced", y=y_train)
     print(np.unique(weights))
+    print(f'y_train.value_counts(): {y_train.value_counts()}')
+    print(f'len(y_train): {len(y_train)}')
     return weights
 
 
@@ -178,8 +180,8 @@ def clf_predict(params, X_train, y_train, X_test, y_test, opts):
         clf_start = time.time()
         if opts.sample_weights:
             assert opts.pred_alg == 'GB', "Error: only GB allowed with sample_weights"
-            sample_weights = calc_sample_weights(y_train)
-            clf.fit(X_train, y_train, sample_weight=sample_weights)
+            weights = calc_sample_weights(y_train)
+            clf.fit(X_train, y_train, sample_weight=weights)
         else:
             clf.fit(X_train, y_train)
 
