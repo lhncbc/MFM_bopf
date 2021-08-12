@@ -75,9 +75,7 @@ def get_feature_list(filename, feature_thresh):
 def calc_sample_weights(y_train):
     from sklearn.utils import class_weight
     weights = class_weight.compute_sample_weight(class_weight="balanced", y=y_train)
-    print(np.unique(weights))
-    print(f'y_train.value_counts(): {y_train.value_counts()}')
-    print(f'len(y_train): {len(y_train)}')
+    print(f'In calc_sample_weights; np.unique(weights): {np.unique(weights)}')
     return weights
 
 
