@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+from distutils.util import strtobool
+
 import pandas as pd
 import numpy as np
 import argparse
@@ -45,6 +47,9 @@ def parse_args():
                         help='Sample both the test and train data; if not set, only sample training data')
     parser.add_argument('--feature_thresh', default=1.0,
                         help='How many of the corr_var_file variables used as features; [0.0, 1.0] is percentage; int > 1 is count')
+    parser.add_argument('--sample_weights', dest='sample_weights', default=False,
+                        type=lambda x: bool(strtobool(x)),
+                        help='Are sample_weights to be used; currently only applies to GB')
 
     args = parser.parse_args()
     return args
@@ -63,6 +68,15 @@ def get_feature_list(filename, feature_thresh):
     print(f'len(cor_var_list = {len(corr_var_list)}')
     print(f'thresh = {thresh}')
     return corr_var_list[:thresh]
+
+
+# Calculate the sample weights based on the training set for y
+# Currently only applicable to GradientBoosting
+def calc_sample_weights(y_train):
+    from sklearn.utils import class_weight
+    weights = class_weight.compute_sample_weight(class_weight="balanced", y=y_train)
+    print(np.unique(weights))
+    return weights
 
 
 def main():
@@ -162,7 +176,13 @@ def clf_predict(params, X_train, y_train, X_test, y_test, opts):
 
         # Classifier
         clf_start = time.time()
-        clf.fit(X_train, y_train)
+        if opts.sample_weights:
+            assert opts.pred_alg == 'GB', "Error: only GB allowed with sample_weights"
+            sample_weights = calc_sample_weights(y_train)
+            clf.fit(X_train, y_train, sample_weight=sample_weights)
+        else:
+            clf.fit(X_train, y_train)
+
         print('After clf.fit')
         y_pred = clf.predict(X_test)
         save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts, params)

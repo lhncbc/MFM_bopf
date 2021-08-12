@@ -140,7 +140,7 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
             writer = csv.writer(csvfile, lineterminator="\n")
             writer.writerow(["CLF_time(min)", '{:.3f}'.format(clf_min)])
             for arg in vars(opts):
-                if arg in ["target", "period", "feats", "sample_tts", "under_alg", "pred_alg", "seed", "samp_strat"]:
+                if arg in ["target", "period", "feats", "sample_weights", "sample_tts", "under_alg", "pred_alg", "seed", "samp_strat"]:
                     writer.writerow([arg, getattr(opts, arg)])
 
             if opts.pred_params:
