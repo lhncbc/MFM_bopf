@@ -1,6 +1,3 @@
-#
-# This file contains functions for outputing
-#
 import time
 import pandas as pd
 import numpy as np
@@ -37,8 +34,8 @@ def calc_no_skill(X_train, y_train, X_test, y_test):
     return naive_auc
 
 
-def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts, params_dict):
-
+def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
+                 params_dict):
     # Calculate stats based on algorithm results
     print(f'In save_to_file')
     print(f'np.bincount(y_test) =\n {np.bincount(y_test)}')
@@ -55,8 +52,6 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
     # Naive AUC calc doesn't produce valid results for undersampled data
     # naive_auc = calc_no_skill(X_train, y_train, X_test, y_test)
     avg_precision = average_precision_score(y_test, prob1)
-    precision_s = precision_score(y_test, y_pred)
-    recall_s = recall_score(y_test, y_pred)
     f1_s = f1_score(y_test, y_pred, average=None)
     fb1 = fbeta_score(y_test, y_pred, beta=1.0, average=None)
     fb1_m = fbeta_score(y_test, y_pred, beta=1.0, average='macro')
@@ -64,7 +59,8 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
     fb2_m = fbeta_score(y_test, y_pred, beta=2.0, average='macro')
     fb05 = fbeta_score(y_test, y_pred, beta=0.5, average=None)
     fb05_m = fbeta_score(y_test, y_pred, beta=0.5, average='macro')
-    precm, recm, f1m, suppm = precision_recall_fscore_support(y_test, y_pred, average="macro")
+    precm, recm, f1m, suppm = \
+        precision_recall_fscore_support(y_test, y_pred, average="macro")
     fpr, tpr, thresholds = roc_curve(y_test, prob1)
     roc_auc = auc(fpr, tpr)
     roc_auc_prob = roc_auc_score(y_test, prob1)
@@ -74,21 +70,26 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
     g_ix = np.argmax(gmeans)
     gmean = geometric_mean_score(y_test, y_pred, average=None)
     gmean_ma = geometric_mean_score(y_test, y_pred, average='macro')
-    sens, spec, ss_supp = sensitivity_specificity_support(y_test, y_pred, average=None)
-    sens_m, spec_m, ss_supp_m = sensitivity_specificity_support(y_test, y_pred, average='macro')
+    sens, spec, ss_supp = \
+        sensitivity_specificity_support(y_test, y_pred, average=None)
+    sens_m, spec_m, ss_supp_m = \
+        sensitivity_specificity_support(y_test, y_pred, average='macro')
     combStat = (precm + recm + f1m + mcc) / 4
 
     clf_min = (time.time() - clf_start) / 60
     outfile_base = create_outfile_base(opts, params_dict)
     with open(outfile_base + '.out', 'w', newline='') as outfile:
-        print(f'X_train.shape = {X_train.shape}; y_train.shape={y_train.shape}', file=outfile)
-        print(f'X_test.shape = {X_test.shape}; y_test.shape={y_test.shape}', file=outfile)
+        print(f'X_train.shape = {X_train.shape}; y_train.shape={y_train.shape}',
+              file=outfile)
+        print(f'X_test.shape = {X_test.shape}; y_test.shape={y_test.shape}',
+              file=outfile)
         print(f'np.bincount(y_train)={np.bincount(y_train)}', file=outfile)
         print(f'np.bincount(y_test)={np.bincount(y_test)}', file=outfile)
 
         print(f'\n\nclf.get_params() = {clf.get_params()}\n\n', file=outfile)
         print(confusion_matrix(y_test, y_pred), file=outfile)
-        print(f'\nClassification Report:\n {classification_report(y_test, y_pred)}', file=outfile)
+        print(f'\nClassification Report:\n {classification_report(y_test, y_pred)}',
+              file=outfile)
         print(f'ROC_AUC = {roc_auc}', file=outfile)
         print(f'ROC_Prob = {roc_auc_prob}', file=outfile)
         print(f'ROC_Pred = {roc_auc_pred}', file=outfile)
@@ -103,34 +104,38 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
         print(f'fb1 = {fb1}; fb1_macro = {fb1_m}', file=outfile)
         print(f'fb2 = {fb2}; fb2_macro = {fb2_m}', file=outfile)
         print(f'fb05 = {fb05}; fb2_macro = {fb05_m}', file=outfile)
-        print(f'max_gmean = {gmeans[g_ix]}; max_thresh = {thresholds[g_ix]}', file=outfile)
+        print(f'max_gmean = {gmeans[g_ix]}; max_thresh = {thresholds[g_ix]}',
+              file=outfile)
         print(f'gmean = {gmean}; gmean_macro = {gmean_ma}', file=outfile)
         print(f'sens = {sens}; sens_macro = {sens_m}', file=outfile)
         print(f'spec = {spec}; spec_macro = {spec_m}', file=outfile)
 
-        # if opts.pred_alg == 'LR' or opts.pred_alg == 'SVC' or xopts.pred_alg == 'LSVC':
-        if hasattr(clf, 'coef_') or hasattr(clf, 'coefs_') or hasattr(clf, 'feature_importances_'):
+        # if opts.pred_alg == 'LR' or 'SVC' or 'LSVC':
+        if hasattr(clf, 'coef_') or hasattr(clf, 'coefs_') or \
+           hasattr(clf, 'feature_importances_'):
             if hasattr(clf, 'coef_'):
                 # CategoricalNB not working...
                 if opts.pred_alg == 'CNB':
-                    print(f'type(clf.coef_) = \n{type(clf.coef_)}', file=outfile)
+                    print(f'type(clf.coef_) = \n{type(clf.coef_)}',
+                          file=outfile)
                     coeffs = pd.Series()
                 else:
-                    coeffs = pd.Series(data=np.abs(clf.coef_[0]), index=X_test.columns.values)
+                    coeffs = pd.Series(data=np.abs(clf.coef_[0]),
+                                       index=X_test.columns.values)
             #    coeffs.sort_values(inplace=True, ascending=False)
-            #    print(f'coeffs = \n{coeffs}', file=outfile)
             elif hasattr(clf, 'coefs_'):
-                coef_df = pd.DataFrame(np.abs(clf.coefs_[0]), index=X_test.columns.values)
+                coef_df = pd.DataFrame(np.abs(clf.coefs_[0]),
+                                       index=X_test.columns.values)
                 coeffs = coef_df.apply(np.mean, axis=1)
             # alg = 'GB'
             elif hasattr(clf, 'feature_importances_'):
                 print(f'feat_imp = \n{clf.feature_importances_}', file=outfile)
-                coeffs = pd.Series(data=clf.feature_importances_, index=X_test.columns.values)
+                coeffs = pd.Series(data=clf.feature_importances_,
+                                   index=X_test.columns.values)
 
             # Remove opts.under_alg from coeffs as it sometimes produces NaN
             #if opts.under_alg in coeffs.index:
             #    coeffs.drop(opts.under_alg, inplace=True)
-
             coeffs.sort_values(inplace=True, ascending=False)
             print(f'coeffs = \n{coeffs.to_string()}', file=outfile)
 
@@ -140,7 +145,8 @@ def save_to_file(X_train, y_train, X_test, y_test, y_pred, clf, clf_start, opts,
             writer = csv.writer(csvfile, lineterminator="\n")
             writer.writerow(["CLF_time(min)", '{:.3f}'.format(clf_min)])
             for arg in vars(opts):
-                if arg in ["target", "period", "feats", "sample_weights", "sample_tts", "under_alg", "pred_alg", "seed", "samp_strat"]:
+                if arg in ["target", "period", "feats", "sample_weights", "sample_tts",
+                           "under_alg", "pred_alg", "seed", "samp_strat"]:
                     writer.writerow([arg, getattr(opts, arg)])
 
             if opts.pred_params:

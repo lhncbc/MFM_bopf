@@ -178,6 +178,7 @@ def clf_predict(params, X_train, y_train, X_test, y_test, opts):
         clf_start = time.time()
         if opts.sample_weights:
             assert opts.pred_alg == 'GB', "Error: only GB allowed with sample_weights"
+            assert opts.under_alg == 'NONE', "Error: sample_weights does not make sense with undersampling"
             weights = calc_sample_weights(y_train)
             clf.fit(X_train, y_train, sample_weight=weights)
         else:
