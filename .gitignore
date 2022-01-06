@@ -1,4 +1,7 @@
 **/data
 **/.ipynb_checkpoints
+**/.idea
 __pycache__/
 *.py[cdo]
+**/old
+**/output
