@@ -6,6 +6,8 @@ MLP/*
 NB/*
 RF/*
 SVC/*
-output/*
-results/*
+output/*.csv
+output/*.dat
+output/*.out
+results/*.csv
 oldMay/*
