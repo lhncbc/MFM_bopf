@@ -1,0 +1,78 @@
+##################################################
+# Grid search for hyperparameters run on ceb-slurm
+#  - Depends on slurmMultiPred.sh and multiPredTmplt.sh
+##################################################
+export pred_params='[{"n_estimators":[32,128,512],"criterion":["gini"],"max_depth":[20,40,80],"min_samples_leaf":[1,16],"min_samples_split":[2],"max_leaf_nodes":[100],"max_features":["auto"],"random_state":[7]}]'
+export pred_params='[{"n_estimators":[128],"criterion":["gini"],"max_depth":[40,80],"min_samples_leaf":[1],"min_samples_split":[2,4,16],"max_leaf_nodes":[100],"max_features":["auto"],"random_state":[7]}]'
+----
+export pred_params='[{"n_estimators":[128],"criterion":["gini"],"max_depth":[40],"min_samples_leaf":[1,16],"min_samples_split":[2],"max_leaf_nodes":[100],"max_features":["auto"],"class_weight":["balanced","None"],"random_state":[7]}]'
+
+export pred_params='[{"n_estimators":[128],"criterion":["gini"],"max_depth":[40,80],"min_samples_leaf":[1],"min_samples_split":[2,4,16],"max_leaf_nodes":[100],"max_features":["auto"],"class_weight":["balanced","None"],"random_state":[7]}]'
+export pred_params='[{"n_estimators":[128],"criterion":["gini"],"max_depth":[40,80],"min_samples_leaf":[1],"min_samples_split":[2,4,16],"max_leaf_nodes":[100],"max_features":["auto"],"class_weight":["None"],"random_state":[7]}]'
+
+---- Best?
+export pred_params='[{"n_estimators":[128],"criterion":["gini"],"max_depth":[40],"min_samples_leaf":[16],"min_samples_split":[2],"max_leaf_nodes":[100],"max_features":["auto"],"class_weight":["balanced"],"random_state":[7]}]'
+export pred_params='[{"n_estimators":[128],"criterion":["gini"],"max_depth":[40],"min_samples_leaf":[16],"min_samples_split":[2],"max_leaf_nodes":[100],"max_features":["None"],"class_weight":["balanced"],"random_state":[7]}]'
+export pred_params='[{"n_estimators":[128],"criterion":["gini"],"max_depth":[40],"min_samples_leaf":[16],"min_samples_split":[2],"max_leaf_nodes":[100],"max_features":["auto"],"class_weight":["None"],"random_state":[7]}]'
+
+**************
+* transfus_yes
+**************
+sbatch --export=target='transfus_yes',period='PI',infile='../../../data/csl/CSL_ty_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Ty_coeff_Union50.csv',feats='Union50',under_alg='RAND',pred_alg='RF',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='transfus_yes',period='Pre',infile='../../../data/csl/CSL_ty_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Ty_coeff_Union50.csv',feats='Union50',under_alg='RAND',pred_alg='RF',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='transfus_yes',period='PI',infile='../../../data/csl/CSL_ty_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Ty_coeff_ALL.csv',feats='ALL',under_alg='RAND',pred_alg='RF',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='transfus_yes',period='Pre',infile='../../../data/csl/CSL_ty_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Ty_coeff_ALL.csv',feats='ALL',under_alg='RAND',pred_alg='RF',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+
+**************
+* trans_loss
+**************
+sbatch --export=target='trans_loss',period='PI',infile='../../../data/csl/CSL_tl_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Tl_coeff_Union50.csv',feats='Union50',under_alg='RAND',pred_alg='RF',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='trans_loss',period='Pre',infile='../../../data/csl/CSL_tl_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Tl_coeff_Union50.csv',feats='Union50',under_alg='RAND',pred_alg='RF',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='trans_loss',period='PI',infile='../../../data/csl/CSL_tl_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Tl_coeff_ALL.csv',feats='ALL',under_alg='RAND',pred_alg='RF',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='trans_loss',period='Pre',infile='../../../data/csl/CSL_tl_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Tl_coeff_ALL.csv',feats='ALL',under_alg='RAND',pred_alg='RF',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+
+------------------------
+under_alg = NONE
+------------------------
+sbatch --export=target='transfus_yes',period='PI',infile='../../../data/csl/CSL_ty_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Ty_coeff_Union50.csv',feats='Union50',under_alg='NONE',pred_alg='RF',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='transfus_yes',period='Pre',infile='../../../data/csl/CSL_ty_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Ty_coeff_Union50.csv',feats='Union50',under_alg='NONE',pred_alg='RF',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='transfus_yes',period='PI',infile='../../../data/csl/CSL_ty_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Ty_coeff_ALL.csv',feats='ALL',under_alg='NONE',pred_alg='RF',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='transfus_yes',period='Pre',infile='../../../data/csl/CSL_ty_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Ty_coeff_ALL.csv',feats='ALL',under_alg='NONE',pred_alg='RF',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+
+sbatch --export=target='trans_loss',period='PI',infile='../../../data/csl/CSL_tl_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Tl_coeff_Union50.csv',feats='Union50',under_alg='NONE',pred_alg='RF',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='trans_loss',period='Pre',infile='../../../data/csl/CSL_tl_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Tl_coeff_Union50.csv',feats='Union50',under_alg='NONE',pred_alg='RF',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='trans_loss',period='PI',infile='../../../data/csl/CSL_tl_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Tl_coeff_ALL.csv',feats='ALL',under_alg='NONE',pred_alg='RF',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='trans_loss',period='Pre',infile='../../../data/csl/CSL_tl_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Tl_coeff_ALL.csv',feats='ALL',under_alg='NONE',pred_alg='RF',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+
+**************
+* Samp_strat
+**************
+sbatch --export=target='transfus_yes',period='PI',infile='../../../data/csl/CSL_ty_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Ty_coeff_Union50.csv',feats='Union50',under_alg='RAND',pred_alg='RF',samp_strat=0.5,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='transfus_yes',period='Pre',infile='../../../data/csl/CSL_ty_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Ty_coeff_Union50.csv',feats='Union50',under_alg='RAND',pred_alg='RF',samp_strat=0.5,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='transfus_yes',period='PI',infile='../../../data/csl/CSL_ty_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Ty_coeff_ALL.csv',feats='ALL',under_alg='RAND',pred_alg='RF',samp_strat=0.5,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='transfus_yes',period='Pre',infile='../../../data/csl/CSL_ty_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Ty_coeff_ALL.csv',feats='ALL',under_alg='RAND',pred_alg='RF',samp_strat=0.5,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='transfus_yes',period='PI',infile='../../../data/csl/CSL_ty_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Ty_coeff_Union50.csv',feats='Union50',under_alg='RAND',pred_alg='RF',samp_strat=0.7,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='transfus_yes',period='Pre',infile='../../../data/csl/CSL_ty_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Ty_coeff_Union50.csv',feats='Union50',under_alg='RAND',pred_alg='RF',samp_strat=0.7,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='transfus_yes',period='PI',infile='../../../data/csl/CSL_ty_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Ty_coeff_ALL.csv',feats='ALL',under_alg='RAND',pred_alg='RF',samp_strat=0.7,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='transfus_yes',period='Pre',infile='../../../data/csl/CSL_ty_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Ty_coeff_ALL.csv',feats='ALL',under_alg='RAND',pred_alg='RF',samp_strat=0.7,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='transfus_yes',period='PI',infile='../../../data/csl/CSL_ty_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Ty_coeff_Union50.csv',feats='Union50',under_alg='RAND',pred_alg='RF',samp_strat=0.9,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='transfus_yes',period='Pre',infile='../../../data/csl/CSL_ty_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Ty_coeff_Union50.csv',feats='Union50',under_alg='RAND',pred_alg='RF',samp_strat=0.9,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='transfus_yes',period='PI',infile='../../../data/csl/CSL_ty_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Ty_coeff_ALL.csv',feats='ALL',under_alg='RAND',pred_alg='RF',samp_strat=0.9,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='transfus_yes',period='Pre',infile='../../../data/csl/CSL_ty_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Ty_coeff_ALL.csv',feats='ALL',under_alg='RAND',pred_alg='RF',samp_strat=0.9,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+
+**************
+* trans_loss - samp_strat
+**************
+sbatch --export=target='trans_loss',period='PI',infile='../../../data/csl/CSL_tl_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Tl_coeff_Union50.csv',feats='Union50',under_alg='RAND',pred_alg='RF',samp_strat=0.5,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='trans_loss',period='Pre',infile='../../../data/csl/CSL_tl_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Tl_coeff_Union50.csv',feats='Union50',under_alg='RAND',pred_alg='RF',samp_strat=0.5,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='trans_loss',period='PI',infile='../../../data/csl/CSL_tl_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Tl_coeff_ALL.csv',feats='ALL',under_alg='RAND',pred_alg='RF',samp_strat=0.5,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='trans_loss',period='Pre',infile='../../../data/csl/CSL_tl_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Tl_coeff_ALL.csv',feats='ALL',under_alg='RAND',pred_alg='RF',samp_strat=0.5,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='trans_loss',period='PI',infile='../../../data/csl/CSL_tl_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Tl_coeff_Union50.csv',feats='Union50',under_alg='RAND',pred_alg='RF',samp_strat=0.7,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='trans_loss',period='Pre',infile='../../../data/csl/CSL_tl_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Tl_coeff_Union50.csv',feats='Union50',under_alg='RAND',pred_alg='RF',samp_strat=0.7,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='trans_loss',period='PI',infile='../../../data/csl/CSL_tl_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Tl_coeff_ALL.csv',feats='ALL',under_alg='RAND',pred_alg='RF',samp_strat=0.7,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='trans_loss',period='Pre',infile='../../../data/csl/CSL_tl_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Tl_coeff_ALL.csv',feats='ALL',under_alg='RAND',pred_alg='RF',samp_strat=0.7,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='trans_loss',period='PI',infile='../../../data/csl/CSL_tl_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Tl_coeff_Union50.csv',feats='Union50',under_alg='RAND',pred_alg='RF',samp_strat=0.9,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='trans_loss',period='Pre',infile='../../../data/csl/CSL_tl_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Tl_coeff_Union50.csv',feats='Union50',under_alg='RAND',pred_alg='RF',samp_strat=0.9,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='trans_loss',period='PI',infile='../../../data/csl/CSL_tl_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Tl_coeff_ALL.csv',feats='ALL',under_alg='RAND',pred_alg='RF',samp_strat=0.9,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='trans_loss',period='Pre',infile='../../../data/csl/CSL_tl_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Tl_coeff_ALL.csv',feats='ALL',under_alg='RAND',pred_alg='RF',samp_strat=0.9,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+
