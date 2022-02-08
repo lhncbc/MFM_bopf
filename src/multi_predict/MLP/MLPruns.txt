@@ -1,0 +1,50 @@
+#export pred_params='[{"solver":["adam"],"hidden_layer_sizes":[[67,1],[67],[1]],"alpha":[0.00001,0.001,0.1,1.0],"max_iter":[500],"activation":["relu"],"random_state":[0]}]'
+####
+export pred_params='[{"solver":["adam"],"hidden_layer_sizes":[[67,35,17,8,4],[68,32,16,4],[68,20]],"alpha":[0.00001,0.001,0.1,1.0],"max_iter":[500],"activation":["relu"],"random_state":[0]}]'
+export pred_params='[{"solver":["adam"],"hidden_layer_sizes":[[256,16,4],[232,64,8],[100,50]],"alpha":[0.00001,0.001,0.1,1.0],"max_iter":[500],"activation":["relu"],"random_state":[0]}]'
+export pred_params='[{"solver":["lbfgs"],"hidden_layer_sizes":[[64,32,16,8,4],[52,26,13,6],[51,13]],"alpha":[0.00001,0.001,0.1,1.0],"max_iter":[500],"activation":["relu"],"random_state":[0]}]'
+#export pred_params='[{"solver":["sgd"],"hidden_layer_sizes":[[64,32,16,8,4],[52,26,13,6],[51,13]],"alpha":[0.00001,0.001,0.1,1.0],"max_iter":[500],"activation":["relu"],"random_state":[0]}]'
+
+#export pred_params='[{"solver":["sgd"],"hidden_layer_sizes":[[64,32,16,8,4],[52,26,13,6],[100,100]],"alpha":[0.00001,0.001],"max_iter":[500],"activation":["relu"],"random_state":[0]}]'
+#export pred_params='[{"solver":["adam"],"hidden_layer_sizes":[[64,32,16,8,4],[52,26,13,6],[100,100]],"alpha":[0.00001,0.001],"max_iter":[500],"activation":["relu"],"random_state":[0]}]'
+#export pred_params='[{"solver":["adam"],"hidden_layer_sizes":[[64,64,64],[52,52,26,26,6],[200,100,50]],"alpha":[0.00001,0.001],"max_iter":[500],"activation":["relu"],"random_state":[0]}]'
+
+export pred_params='[{"solver":["adam"],"hidden_layer_sizes":[[256,16,4],[64,32,16,8],[100,50]],"alpha":[0.1,1.0],"max_iter":[500],"activation":["relu"],"random_state":[0]}]'
+
+**************
+* transfus_yes 
+**************
+sbatch --export=target='transfus_yes',period='PI',infile='../../../data/csl/CSL_ty_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Ty_coeff_Union50.csv',feats='Union50',under_alg='RAND',pred_alg='MLP',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='transfus_yes',period='Pre',infile='../../../data/csl/CSL_ty_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Ty_coeff_Union50.csv',feats='Union50',under_alg='RAND',pred_alg='MLP',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='transfus_yes',period='PI',infile='../../../data/csl/CSL_ty_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Ty_coeff_ALL.csv',feats='ALL',under_alg='RAND',pred_alg='MLP',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='transfus_yes',period='Pre',infile='../../../data/csl/CSL_ty_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Ty_coeff_ALL.csv',feats='ALL',under_alg='RAND',pred_alg='MLP',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+
+**************
+* trans_loss
+**************
+sbatch --export=target='trans_loss',period='PI',infile='../../../data/csl/CSL_tl_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Tl_coeff_Union50.csv',feats='Union50',under_alg='RAND',pred_alg='MLP',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='trans_loss',period='Pre',infile='../../../data/csl/CSL_tl_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Tl_coeff_Union50.csv',feats='Union50',under_alg='RAND',pred_alg='MLP',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='trans_loss',period='PI',infile='../../../data/csl/CSL_tl_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Tl_coeff_ALL.csv',feats='ALL',under_alg='RAND',pred_alg='MLP',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='trans_loss',period='Pre',infile='../../../data/csl/CSL_tl_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Tl_coeff_ALL.csv',feats='ALL',under_alg='RAND',pred_alg='MLP',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+
+
+************
+* NONE - just a couple; no class_weight
+************
+sbatch --export=target='transfus_yes',period='PI',infile='../../../data/csl/CSL_ty_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Ty_coeff_Union50.csv',feats='Union50',under_alg='NONE',pred_alg='MLP',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+
+sbatch --export=target='trans_loss',period='PI',infile='../../../data/csl/CSL_tl_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Tl_coeff_Union50.csv',feats='Union50',under_alg='NONE',pred_alg='MLP',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+
+-- NOT RUN, YET ---
+------------------------------
+Adding Learning Rate
+------------------------------
+export pred_params='[{"solver":["adam"],"hidden_layer_sizes":[[64,32,16,8,4],[52,26,13,6]],"alpha":[0.00001,0.001,0.1,0.2],"max_iter":[500],"activation":["relu"],"random_state":[0],"learning_rate_init":[0.0001,0.01,0.1]}]'
+export pred_params='[{"solver":["adam"],"hidden_layer_sizes":[[64,32,16,8,4],[52,26,13,6]],"alpha":[0.00001,0.001,0.1,0.2],"max_iter":[500],"activation":["relu"],"random_state":[0],"learning_rate_init":[0.001]}]'
+sbatch --export=target='transfus_yes',infile='../../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../../data/csl/union50-ty_tl-Cramer.csv',under_alg='RAND',pred_alg='MLP',samp_strat=1.0,nproc=1,seed=1,sample_tts=0,feature_thresh=1.0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+export pred_params='[{"solver":["adam"],"hidden_layer_sizes":[[64,32,16,8,4]],"alpha":[0.07],"max_iter":[500],"activation":["relu"],"random_state":[0],"learning_rate_init":[0.001]}]'
+
+------------------------------------------
+NM1 - horrible results: Do not use for MLP
+------------------------------------------
+sbatch --export=target='transfus_yes',infile='../../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../../data/csl/union50-ty_tl-Cramer.csv',under_alg='NM1',pred_alg='MLP',samp_strat=1.0,nproc=1,seed=1,sample_tts=0,feature_thresh=1.0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
