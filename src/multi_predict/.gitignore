@@ -1,11 +1,3 @@
-CNB/*
-GB/*
-LR/*
-LSVC/*
-MLP/*
-NB/*
-RF/*
-SVC/*
 output/*.csv
 output/*.dat
 output/*.out
