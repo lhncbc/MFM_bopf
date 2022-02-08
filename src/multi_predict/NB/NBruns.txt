@@ -1,0 +1,11 @@
+export pred_params='[{"var_smoothing":[1e-08,1e-09,1e-10,1e-11,1e-12]}]'
+
+**************
+* transfus_yes
+**************
+sbatch --export=target='transfus_yes',infile='../../../data/csl/CSL_d5_transfus_yes_2020-08-21.csv',corr_var_file='../../../data/csl/Cramer-corr-transfus_yes.csv',under_alg='RAND',pred_alg='NB',samp_strat=1.0,nproc=15,seed=1,sample_tts=0,feature_thresh=1.0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+
+**************
+* trans_loss
+**************
+sbatch --export=target='trans_loss',infile='../../../data/csl/CSL_d5_trans_loss_2020-08-21.csv',corr_var_file='../../../data/csl/Cramer-corr-trans_loss.csv',under_alg='RAND',pred_alg='NB',samp_strat=1.0,nproc=15,seed=1,sample_tts=0,feature_thresh=1.0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
