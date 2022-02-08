@@ -1,0 +1,50 @@
+# High values for C not doing well
+#export pred_params='[{"random_state":[7],"kernel":["linear"],"max_iter":[10000000],"C":[0.1,1,10,100,1000,10000,100000,1000000,10000000,100000000],"gamma":["scale"],"degree":[0],"probability":[1]}]'
+
+# Reducing "max_iter" since some jobs ran overnight... 2021.04.09
+export pred_params='[{"random_state":[7],"kernel":["linear"],"max_iter":[10000000],"C":[0.005,0.01,0.1,1,10],"gamma":["scale"],"degree":[0],"probability":[1]}]'
+--- class_weight ---
+export pred_params='[{"random_state":[7],"kernel":["linear"],"max_iter":[10000000],"C":[0.005,0.01,0.1,1,10],"gamma":["scale"],"degree":[0],"probability":[1],"class_weight":["balanced"]}]'
+
+#export pred_params='[{"random_state":[7],"kernel":["linear"],"max_iter":[10000000],"C":[0.005,0.01,0.1,1,10],"gamma":["scale"],"degree":[0],"probability":[1],"class_weight":["balanced","None"]}]'
+
+-------- poly --------
+export pred_params='[{"random_state":[7],"kernel":["poly"],"max_iter":[100000000],"C":[10000,100000,1000000,10000000,100000000],"gamma":["scale","auto"],"degree":[3,4,5],"probability":[1]}]'
+export pred_params='[{"random_state":[7],"kernel":["poly"],"max_iter":[100000000],"C":[0.1,1,10,100,1000],"gamma":["scale","auto"],"degree":[3,4,5],"probability":[1]}]'
+
+-------- rbf, sigmoid --------
+export pred_params='[{"random_state":[7],"kernel":["rbf","sigmoid"],"max_iter":[100000000],"C":[1,100,10000,1000000],"gamma":["auto","scale"],"degree":[0],"probability":[1]}]'
+# RBF kernel - run with specific gammas?
+
+**************
+* transfus_yes
+**************
+sbatch --export=target='transfus_yes',period='PI',infile='../../../data/csl/CSL_ty_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Ty_coeff_Union50.csv',feats='Union50',under_alg='RAND',pred_alg='SVC',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='transfus_yes',period='Pre',infile='../../../data/csl/CSL_ty_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Ty_coeff_Union50.csv',feats='Union50',under_alg='RAND',pred_alg='SVC',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='transfus_yes',period='PI',infile='../../../data/csl/CSL_ty_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Ty_coeff_ALL.csv',feats='ALL',under_alg='RAND',pred_alg='SVC',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='transfus_yes',period='Pre',infile='../../../data/csl/CSL_ty_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Ty_coeff_ALL.csv',feats='ALL',under_alg='RAND',pred_alg='SVC',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+
+*****************
+* trans_loss
+*****************
+sbatch --export=target='trans_loss',period='PI',infile='../../../data/csl/CSL_tl_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Tl_coeff_Union50.csv',feats='Union50',under_alg='RAND',pred_alg='SVC',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='trans_loss',period='Pre',infile='../../../data/csl/CSL_tl_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Tl_coeff_Union50.csv',feats='Union50',under_alg='RAND',pred_alg='SVC',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='trans_loss',period='PI',infile='../../../data/csl/CSL_tl_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Tl_coeff_ALL.csv',feats='ALL',under_alg='RAND',pred_alg='SVC',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='trans_loss',period='Pre',infile='../../../data/csl/CSL_tl_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Tl_coeff_ALL.csv',feats='ALL',under_alg='RAND',pred_alg='SVC',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+
+----------------
+- under_alg = NONE
+----------------
+sbatch --export=target='transfus_yes',period='PI',infile='../../../data/csl/CSL_ty_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Ty_coeff_Union50.csv',feats='Union50',under_alg='NONE',pred_alg='SVC',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='transfus_yes',period='Pre',infile='../../../data/csl/CSL_ty_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Ty_coeff_Union50.csv',feats='Union50',under_alg='NONE',pred_alg='SVC',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='transfus_yes',period='PI',infile='../../../data/csl/CSL_ty_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Ty_coeff_ALL.csv',feats='ALL',under_alg='NONE',pred_alg='SVC',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='transfus_yes',period='Pre',infile='../../../data/csl/CSL_ty_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Ty_coeff_ALL.csv',feats='ALL',under_alg='NONE',pred_alg='SVC',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+
+sbatch --export=target='trans_loss',period='PI',infile='../../../data/csl/CSL_tl_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Tl_coeff_Union50.csv',feats='Union50',under_alg='NONE',pred_alg='SVC',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='trans_loss',period='Pre',infile='../../../data/csl/CSL_tl_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Tl_coeff_Union50.csv',feats='Union50',under_alg='NONE',pred_alg='SVC',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='trans_loss',period='PI',infile='../../../data/csl/CSL_tl_PI.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_PI_Tl_coeff_ALL.csv',feats='ALL',under_alg='NONE',pred_alg='SVC',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+sbatch --export=target='trans_loss',period='Pre',infile='../../../data/csl/CSL_tl_Pre.csv',corr_var_file='../../../data/csl/CramerTheil/Cramer_Pre_Tl_coeff_ALL.csv',feats='ALL',under_alg='NONE',pred_alg='SVC',samp_strat=1.0,feature_thresh=1.0,nproc=15,seed=1,sample_tts=0,output_dir='./output',pred_params,PATH ../multiPredTmplt.sh
+
+----------------
+- samp_strat = 0.5, 0.25
+----------------
