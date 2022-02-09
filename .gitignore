@@ -5,3 +5,4 @@ __pycache__/
 *.py[cdo]
 **/old
 **/output
+**/.DS_Store
