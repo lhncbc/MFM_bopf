@@ -1,7 +1,12 @@
 ### Directory TFIM (TensorFlow Imbalanced)
 This Jupyter Notebook from the TensorFlow website was an initial cut at trying
 Neural Networks for classification of our MFM CSL data. It worked reasonably well,
-especially since it wasn't tuned very much.
+especially since it wasn't tuned very much. This implies that it is worth pursuing this
+NN solution since it has the potential to improve results with tuning.
+
+There are two options captured here, one with a bias adjustment and one without. There was
+very little difference between the two, and I wasn't confident that the bias was actually 
+beneficial in our instance, so I broke them up.
 
 ### Here is a quick dump of the statistical results:
 | Statistic   | Value                |
