@@ -1,5 +1,0 @@
-numpy
-optuna
-pandas
-scikit-learn
-xgboost
