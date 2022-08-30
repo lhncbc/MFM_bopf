@@ -3,7 +3,8 @@ Most of the Jupyter Notebooks in this directory are involved either in Extended 
 Analysis (EDA) or as part of a data field/target generation pipeline.
 
 This is the process for data cleaning / field & target generation:
-![Image](MFM_data_creation.png?raw=true)
+![Image](MFM_data_creation.png)
+Larger version: [MFM_data_creation.pdf](MFM_data_creation.pdf)
 
 ## Source code subdirectories
 The following table summarizes the src subdirectories. They are listed in order of decreasing
