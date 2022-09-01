@@ -20,12 +20,19 @@ We also ran two deep learning algorithms:
 Hyperparameter tuning for all algorithms was done using a customized grid search technique. 
 
 ## Performance Statistics
-Due to the imbalanced nature of this dataset (5-9% positive cases, depending on the outcome target), we used a number of primary statistics for comparison:
+Due to the imbalanced nature of this dataset (4-8% positive cases, depending on the outcome target), we used a number of primary statistics for comparison:
 - MCC: (Matthews Correlation Coefficient
 - ROC-AUC: Receiver Operating Characteristic - Area Under the Curve
 - PR-AUC: Precision/Recall - Area Under the Curve
 - F2: Modified F-score skewed towards Recall
 - Raw Confusion Matrix values
+
+## Software Dependencies
+Some of the MFM_mbopf notebooks and code depends on some convenience routines
+found in this repo: [mwb_common](https://github.com/mbopf/mwb_common)
+
+The way I've handled this is to make sure the code in mwb_common is included
+in the PYTHONPATH environment variable.
 
 ## Software Versions
 Vast majority of the code (both Python and Jupyter Notebooks), was run using Python 3.6 although later on version 3.9 was used. I don't believe any 3.9-specific code was used, 
