@@ -6,6 +6,13 @@ This is the process for data cleaning / field & target generation:
 ![Image](MFM_data_creation.png)
 Larger version: [MFM_data_creation.pdf](MFM_data_creation.pdf)
 
+## Software Dependencies
+Some of the notebooks and code depend on some convenience routines
+found in this repo: [mwb_common](https://github.com/mbopf/mwb_common)
+
+The best way I've found to handle this is to make sure the code in mwb_common is included
+in the PYTHONPATH environment variable.
+
 ## Source code subdirectories
 The following table summarizes the src subdirectories. They are listed in order of decreasing
 importance to the application. The [multi_predict](multi_predict) directory is especially important since it
